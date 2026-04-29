@@ -1,0 +1,465 @@
+@{
+    ViewData["Title"] = "Home";
+}
+
+<!-- Hero Section -->
+<section id="hero" class="hero section accent-background">
+    <div class="container">
+        <div class="row gy-4">
+            <div class="col-lg-6 order-2 order-lg-1 d-flex flex-column justify-content-center" data-aos="fade-up">
+                <h1>Everything You Need,<br>All in One Place</h1>
+                <p>We are a passionate team dedicated to bringing you the best online shopping experience — quality products, unbeatable prices, and seamless delivery.</p>
+                <div class="d-flex gap-3 flex-wrap">
+                    <a asp-controller="Products" asp-action="Index" class="btn-get-started">Shop Now</a>
+                    <a asp-controller="Home" asp-action="Categories" class="btn-get-started" style="background:transparent;border:2px solid #fff;">Browse Categories</a>
+                </div>
+            </div>
+            <div class="col-lg-6 order-1 order-lg-2 hero-img" data-aos="zoom-out">
+                <img src="~/assets/img/1.png" class="img-fluid animated" style="width: 110%; margin-left: 20px;" alt="Marketo Shopping">
+            </div>
+        </div>
+    </div>
+</section><!-- /Hero Section -->
+
+<!-- Stats Section -->
+<section class="section" style="background:#f9f9f9; padding: 40px 0;">
+    <div class="container">
+        <div class="row g-4 text-center">
+            <div class="col-lg-3 col-6" data-aos="fade-up" data-aos-delay="100">
+                <div style="padding:20px;">
+                    <div style="font-size:2.4rem;font-weight:800;color:#5b21b6;">10K+</div>
+                    <div style="color:#777;font-size:14px;margin-top:4px;">Happy Customers</div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-6" data-aos="fade-up" data-aos-delay="200">
+                <div style="padding:20px;">
+                    <div style="font-size:2.4rem;font-weight:800;color:#5b21b6;">5K+</div>
+                    <div style="color:#777;font-size:14px;margin-top:4px;">Products</div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-6" data-aos="fade-up" data-aos-delay="300">
+                <div style="padding:20px;">
+                    <div style="font-size:2.4rem;font-weight:800;color:#5b21b6;">50+</div>
+                    <div style="color:#777;font-size:14px;margin-top:4px;">Categories</div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-6" data-aos="fade-up" data-aos-delay="400">
+                <div style="padding:20px;">
+                    <div style="font-size:2.4rem;font-weight:800;color:#5b21b6;">99%</div>
+                    <div style="color:#777;font-size:14px;margin-top:4px;">Satisfaction Rate</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Categories Section -->
+<section id="categories" class="services section">
+    <div class="container section-title" data-aos="fade-up">
+        <h2>Shop by Category</h2>
+        <p>Find exactly what you're looking for across our wide selection of categories</p>
+    </div>
+    <div class="container">
+        <div class="row gy-4">
+
+            <div class="col-xl-4 col-lg-6" data-aos="fade-up" data-aos-delay="100">
+                <div class="service-item d-flex">
+                    <div class="icon flex-shrink-0"><i class="bi bi-bag-heart"></i></div>
+                    <div>
+                        <h4 class="title"><a asp-controller="Home" asp-action="Categories" class="stretched-link">Fashion &amp; Clothing</a></h4>
+                        <p class="description">Trendy clothing, accessories and fashion items for men and women</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-4 col-lg-6" data-aos="fade-up" data-aos-delay="200">
+                <div class="service-item d-flex">
+                    <div class="icon flex-shrink-0"><i class="bi bi-trophy"></i></div>
+                    <div>
+                        <h4 class="title"><a asp-controller="Home" asp-action="Categories" class="stretched-link">Sports &amp; Fitness</a></h4>
+                        <p class="description">Everything for your active lifestyle and fitness goals</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-4 col-lg-6" data-aos="fade-up" data-aos-delay="300">
+                <div class="service-item d-flex">
+                    <div class="icon flex-shrink-0"><i class="bi bi-phone"></i></div>
+                    <div>
+                        <h4 class="title"><a asp-controller="Home" asp-action="Categories" class="stretched-link">Electronics &amp; Tech</a></h4>
+                        <p class="description">Your one-stop destination for the latest gadgets and tech accessories</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-4 col-lg-6" data-aos="fade-up" data-aos-delay="400">
+                <div class="service-item d-flex">
+                    <div class="icon flex-shrink-0"><i class="bi bi-cup-hot"></i></div>
+                    <div>
+                        <h4 class="title"><a asp-controller="Home" asp-action="Categories" class="stretched-link">Food &amp; Beverages</a></h4>
+                        <p class="description">Fresh food, drinks, snacks and grocery items delivered to your door</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-4 col-lg-6" data-aos="fade-up" data-aos-delay="500">
+                <div class="service-item d-flex">
+                    <div class="icon flex-shrink-0"><i class="bi bi-house-heart"></i></div>
+                    <div>
+                        <h4 class="title"><a asp-controller="Home" asp-action="Categories" class="stretched-link">Home &amp; Decor</a></h4>
+                        <p class="description">Transform your living space with our curated collection of furniture and décor</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-4 col-lg-6" data-aos="fade-up" data-aos-delay="600">
+                <div class="service-item d-flex">
+                    <div class="icon flex-shrink-0"><i class="bi bi-heart-pulse"></i></div>
+                    <div>
+                        <h4 class="title"><a asp-controller="Home" asp-action="Categories" class="stretched-link">Health &amp; Beauty</a></h4>
+                        <p class="description">Premium skincare, makeup, and wellness products for every day</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="text-center mt-5" data-aos="fade-up">
+            <a asp-controller="Home" asp-action="Categories" class="btn-get-started" style="display:inline-block;padding:12px 36px;border-radius:6px;font-weight:600;">
+                View All Categories <i class="bi bi-arrow-right ms-2"></i>
+            </a>
+        </div>
+    </div>
+</section><!-- /Categories Section -->
+
+<!-- About Section -->
+<section id="about" class="about section" style="background:#f9f9f9;">
+    <div class="container section-title" data-aos="fade-up">
+        <h2>About Us</h2>
+        <p>Learn more about our mission and values</p>
+    </div>
+    <div class="container">
+        <div class="row align-items-center gy-5">
+            <div class="col-lg-6" data-aos="fade-right">
+                <div style="background:linear-gradient(135deg,#5b21b6,#7c3aed);border-radius:20px;padding:60px 40px;color:#fff;text-align:center;">
+                    <i class="bi bi-shop" style="font-size:80px;opacity:0.9;"></i>
+                    <h3 style="margin-top:20px;font-weight:700;font-size:1.8rem;">Marketo</h3>
+                    <p style="opacity:0.9;font-size:15px;margin-top:10px;">Your Trusted Online Marketplace Since 2020</p>
+                </div>
+            </div>
+            <div class="col-lg-6" data-aos="fade-left">
+                <h3 style="font-weight:700;font-size:1.8rem;color:#5b21b6;;">We Make Shopping Simple &amp; Enjoyable</h3>
+                <p style="color:#5b21b6;;margin-top:16px;line-height:1.8;">At Marketo, we believe shopping should be easy, enjoyable, and accessible to everyone. Our platform connects buyers with the best products from trusted sellers around the world.</p>
+                <p style="color:#5b21b6;;line-height:1.8;">We are committed to delivering quality products with fast shipping, hassle-free returns, and world-class customer support — every single time.</p>
+                <div class="row gy-3 mt-2">
+                    <div class="col-6">
+                        <div style="display:flex;align-items:center;gap:10px;">
+                            <i class="bi bi-check-circle-fill" style="color:#5b21b6;;font-size:18px;"></i>
+                            <span style="font-weight:600;color:#333;">Fast Delivery</span>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div style="display:flex;align-items:center;gap:10px;">
+                            <i class="bi bi-check-circle-fill" style="color:#5b21b6;;font-size:18px;"></i>
+                            <span style="font-weight:600;color:#333;">Secure Payment</span>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div style="display:flex;align-items:center;gap:10px;">
+                            <i class="bi bi-check-circle-fill" style="color:#5b21b6;;font-size:18px;"></i>
+                            <span style="font-weight:600;color:#333;">Easy Returns</span>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div style="display:flex;align-items:center;gap:10px;">
+                            <i class="bi bi-check-circle-fill" style="color:#5b21b6;;font-size:18px;"></i>
+                            <span style="font-weight:600;color:#333;">24/7 Support</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-4">
+                    <a asp-controller="Products" asp-action="Index" class="btn-get-started" style="display:inline-block;padding:12px 32px;border-radius:6px;font-weight:600;">
+                        Start Shopping
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section><!-- /About Section -->
+<!-- Featured Products Section -->
+<section id="portfolio" class="portfolio section">
+    <div class="container section-title" data-aos="fade-up">
+        <h2>Featured Products</h2>
+        <p>Handpicked deals and top-selling items just for you</p>
+    </div>
+    <div class="container">
+        <div class="row gy-4">
+
+            @* Product Card 1 *@
+            <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
+                <div class="product-card">
+                    <div class="card-img-wrap">
+                        <img src="~/assets/img/headphones1.png"
+                             style="width:150%;height:250px;object-fit:contain;padding:20px;
+                        transition: transform 0.5s ease;"
+                             onmouseover="this.style.transform='rotate(15deg) scale(1.1)'"
+                             onmouseout="this.style.transform='rotate(0deg) scale(1)'"
+                             alt="Headphones">
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">Premium Wireless Headphones</h5>
+                        <p class="card-text">Experience crystal-clear audio with our premium wireless headphones featuring active noise cancellation, 30-hour battery life, and ultra-soft ear cushions for all-day comfort. Perfect for music, calls, and everything in between.</p>
+                        <div class="d-flex align-items-center justify-content-between">
+                            <span class="price-tag">$89.99</span>
+                            <div style="color:#f5a623;">
+                                <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-half"></i>
+                            </div>
+                        </div>
+                        <div class="card-actions">
+                            <a asp-controller="Home" asp-action="Cart" class="btn-cart"><i class="bi bi-cart-plus me-1"></i>Add to Cart</a>
+                            <a asp-controller="Products" asp-action="Index" class="btn-details"><i class="bi bi-eye"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            @* Product Card 2 *@
+            <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
+                <div class="product-card">
+                    <div class="card-img-wrap">
+                        <img src="~/assets/img/Smart watch.png"
+                             style="width:150%;height:250px;object-fit:contain;padding:20px;
+             transition: transform 0.5s ease;"
+                             onmouseover="this.style.transform='rotate(15deg) scale(1.1)'"
+                             onmouseout="this.style.transform='rotate(0deg) scale(1)'"
+                             alt="Smart Fitness Watch">
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">Smart Fitness Watch</h5>
+                        <p class="card-text">Stay on top of your health with our advanced fitness watch that tracks heart rate, steps, sleep, and workouts in real time. Features a sleek design, long battery life, and seamless smartphone notifications on your wrist.</p>
+                        <div class="d-flex align-items-center justify-content-between">
+                            <span class="price-tag">$66.50</span>
+                            <div style="color:#f5a623;">
+                                <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-half"></i>
+                            </div>
+                        </div>
+                        <div class="card-actions">
+                            <a asp-controller="Home" asp-action="Cart" class="btn-cart"><i class="bi bi-cart-plus me-1"></i>Add to Cart</a>
+                            <a asp-controller="Products" asp-action="Index" class="btn-details"><i class="bi bi-eye"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            @* Product Card 3 *@
+            <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
+                <div class="product-card">
+                    <div class="card-img-wrap">
+                        <img src="~/assets/img/Classic Canvas Duffle Bag.png"
+                             style="width:150%;height:250px;object-fit:contain;padding:20px;
+             transition: transform 0.5s ease;"
+                             onmouseover="this.style.transform='rotate(15deg) scale(1.1)'"
+                             onmouseout="this.style.transform='rotate(0deg) scale(1)'"
+                             alt="Classic Canvas Duffle Bag">
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">Classic Canvas Duffle Bag</h5>
+                        <p class="card-text">A premium canvas duffle bag with genuine leather handles and straps, perfect for weekend getaways and gym sessions. Spacious main compartment with secure zip closure and adjustable shoulder strap for versatile carrying options.</p>
+                        <div class="d-flex align-items-center justify-content-between">
+                            <span class="price-tag">$50.60</span>
+                            <div style="color:#f5a623;">
+                                <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-half"></i>
+                            </div>
+                        </div>
+                        <div class="card-actions">
+                            <a asp-controller="Home" asp-action="Cart" class="btn-cart"><i class="bi bi-cart-plus me-1"></i>Add to Cart</a>
+                            <a asp-controller="Products" asp-action="Index" class="btn-details"><i class="bi bi-eye"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        <div class="text-center mt-5" data-aos="fade-up">
+            <a asp-controller="Products" asp-action="Index" class="btn-get-started" style="display:inline-block;padding:12px 36px;border-radius:6px;font-weight:600;">
+                View All Products <i class="bi bi-arrow-right ms-2"></i>
+            </a>
+        </div>
+    </div>
+</section>
+<!-- Why Shop With Us Section -->
+<section style="background:#f9f9f9;padding:80px 0;">
+    <div class="container">
+        <div class="text-center mb-5" data-aos="fade-up">
+            <h2 style="font-weight:700;font-size:2rem;color:#5b21b6;">Why Shop With Us?</h2>
+            <p style="color:#666;max-width:600px;margin:12px auto 0;">We go above and beyond to make your shopping experience exceptional</p>
+        </div>
+        <div class="row gy-4">
+            <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="100">
+                <div style="text-align:center;padding:30px 20px;background:#fff;border-radius:16px;border:2px solid #ede9fe;transition:all 0.3s;box-shadow:0 4px 15px rgba(91,33,182,0.08);">
+                    <div style="width:70px;height:70px;background:linear-gradient(135deg,#5b21b6,#7c3aed);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 20px;">
+                        <i class="bi bi-truck" style="font-size:28px;color:#fff;"></i>
+                    </div>
+                    <h5 style="font-weight:700;margin-bottom:10px;color:#5b21b6;">Free Shipping</h5>
+                    <p style="color:#666;font-size:14px;line-height:1.6;">Free delivery on all orders over $50. Fast and reliable shipping worldwide.</p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="200">
+                <div style="text-align:center;padding:30px 20px;background:#fff;border-radius:16px;border:2px solid #ede9fe;box-shadow:0 4px 15px rgba(91,33,182,0.08);">
+                    <div style="width:70px;height:70px;background:linear-gradient(135deg,#5b21b6,#7c3aed);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 20px;">
+                        <i class="bi bi-shield-check" style="font-size:28px;color:#fff;"></i>
+                    </div>
+                    <h5 style="font-weight:700;margin-bottom:10px;color:#5b21b6;">Secure Payment</h5>
+                    <p style="color:#666;font-size:14px;line-height:1.6;">Your data is protected with 256-bit SSL encryption. Shop with confidence.</p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="300">
+                <div style="text-align:center;padding:30px 20px;background:#fff;border-radius:16px;border:2px solid #ede9fe;box-shadow:0 4px 15px rgba(91,33,182,0.08);">
+                    <div style="width:70px;height:70px;background:linear-gradient(135deg,#5b21b6,#7c3aed);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 20px;">
+                        <i class="bi bi-arrow-repeat" style="font-size:28px;color:#fff;"></i>
+                    </div>
+                    <h5 style="font-weight:700;margin-bottom:10px;color:#5b21b6;">Easy Returns</h5>
+                    <p style="color:#666;font-size:14px;line-height:1.6;">Not satisfied? Return within 30 days, no questions asked. Full refund guaranteed.</p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="400">
+                <div style="text-align:center;padding:30px 20px;background:#fff;border-radius:16px;border:2px solid #ede9fe;box-shadow:0 4px 15px rgba(91,33,182,0.08);">
+                    <div style="width:70px;height:70px;background:linear-gradient(135deg,#5b21b6,#7c3aed);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 20px;">
+                        <i class="bi bi-headset" style="font-size:28px;color:#fff;"></i>
+                    </div>
+                    <h5 style="font-weight:700;margin-bottom:10px;color:#5b21b6;">24/7 Support</h5>
+                    <p style="color:#666;font-size:14px;line-height:1.6;">Our support team is always ready to assist you around the clock.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Testimonials Section -->
+<section id="testimonials" style="padding:80px 0;background:#f9f9f9;">
+    <div class="container">
+        <div class="text-center mb-5" data-aos="fade-up">
+            <h2 style="font-weight:700;font-size:2rem;color:#222;">What Our Customers Say</h2>
+            <p style="color:#777;max-width:600px;margin:12px auto 0;">Real reviews from real customers who love shopping with Marketo</p>
+        </div>
+        <div class="row gy-4">
+            <div class="col-lg-4" data-aos="fade-up" data-aos-delay="100">
+                <div style="background:#fff;border-radius:16px;padding:30px;box-shadow:0 4px 20px rgba(0,0,0,0.07);height:100%;">
+                    <div style="color:#f5a623;margin-bottom:14px;font-size:18px;">
+                        <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+                    </div>
+                    <p style="color:#555;line-height:1.8;font-style:italic;">"Marketo has completely changed how I shop online. Amazing quality products and super fast delivery. I've been a loyal customer for 2 years!"</p>
+                    <div style="display:flex;align-items:center;gap:12px;margin-top:20px;">
+                        <div style="width:48px;height:48px;background:linear-gradient(135deg,#5b21b6,#7c3aed);border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:18px;">S</div>
+                        <div>
+                            <div style="font-weight:700;color:#222;">Sarah M.</div>
+                            <div style="font-size:12px;color:#999;">Verified Buyer</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4" data-aos="fade-up" data-aos-delay="200">
+                <div style="background:#fff;border-radius:16px;padding:30px;box-shadow:0 4px 20px rgba(0,0,0,0.07);height:100%;">
+                    <div style="color:#f5a623;margin-bottom:14px;font-size:18px;">
+                        <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+                    </div>
+                    <p style="color:#555;line-height:1.8;font-style:italic;">"Incredible selection and the best prices I've found anywhere. Customer support was incredibly helpful when I had a question. Highly recommend!"</p>
+                    <div style="display:flex;align-items:center;gap:12px;margin-top:20px;">
+                        <div style="width:48px;height:48px;background:linear-gradient(135deg,#5b21b6,#7c3aed);border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:18px;">A</div>
+                        <div>
+                            <div style="font-weight:700;color:#222;">Ahmed R.</div>
+                            <div style="font-size:12px;color:#999;">Verified Buyer</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4" data-aos="fade-up" data-aos-delay="300">
+                <div style="background:#fff;border-radius:16px;padding:30px;box-shadow:0 4px 20px rgba(0,0,0,0.07);height:100%;">
+                    <div style="color:#f5a623;margin-bottom:14px;font-size:18px;">
+                        <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-half"></i>
+                    </div>
+                    <p style="color:#555;line-height:1.8;font-style:italic;">"The return process was so smooth and the refund came back in just 2 days. This is how online shopping should be. Will definitely keep coming back!"</p>
+                    <div style="display:flex;align-items:center;gap:12px;margin-top:20px;">
+                        <div style="width:48px;height:48px;background:linear-gradient(135deg,#5b21b6,#7c3aed);border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:18px;">L</div>
+                        <div>
+                            <div style="font-weight:700;color:#222;">Laura K.</div>
+                            <div style="font-size:12px;color:#999;">Verified Buyer</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Contact Section -->
+<section id="contact" class="contact section">
+    <div class="container section-title" data-aos="fade-up">
+        <h2>Contact Us</h2>
+        <p>Have a question? We'd love to hear from you. Send us a message and we'll get back to you as soon as possible.</p>
+    </div>
+    <div class="container" data-aos="fade-up" data-aos-delay="100">
+        <div class="row gy-5 gx-lg-5">
+            <div class="col-lg-4">
+                <div style="background:#fff;border-radius:16px;padding:30px;box-shadow:0 4px 20px rgba(0,0,0,0.07);">
+                    <h4 style="font-weight:700;margin-bottom:20px;color:#222;">Get in Touch</h4>
+                    <div style="display:flex;gap:14px;margin-bottom:20px;">
+                        <div style="width:44px;height:44px;background:#ede9fe;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                            <i class="bi bi-geo-alt-fill" style="color:#5b21b6;font-size:18px;"></i>
+                        </div>
+                        <div>
+                            <div style="font-weight:600;color:#222;">Address</div>
+                            <div style="color:#777;font-size:14px;margin-top:4px;">A108 Adam Street, New York, NY 535022</div>
+                        </div>
+                    </div>
+                    <div style="display:flex;gap:14px;margin-bottom:20px;">
+                        <div style="width:44px;height:44px;background:#ede9fe;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                            <i class="bi bi-telephone-fill" style="color:#5b21b6;font-size:18px;"></i>
+                        </div>
+                        <div>
+                            <div style="font-weight:600;color:#222;">Phone</div>
+                            <div style="color:#777;font-size:14px;margin-top:4px;">+1 5589 55488 55</div>
+                        </div>
+                    </div>
+                    <div style="display:flex;gap:14px;">
+                        <div style="width:44px;height:44px;background:#ede9fe;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                            <i class="bi bi-envelope-fill" style="color:#5b21b6;font-size:18px;"></i>
+                        </div>
+                        <div>
+                            <div style="font-weight:600;color:#222;">Email</div>
+                            <div style="color:#777;font-size:14px;margin-top:4px;">info@marketo.com</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-8">
+                <div style="background:#fff;border-radius:16px;padding:36px 40px;box-shadow:0 4px 20px rgba(0,0,0,0.07);">
+                    <form id="contactForm">
+                        <div class="row gy-4">
+                            <div class="col-md-6">
+                                <label class="form-label" style="font-weight:600;color:#444;">Your Name</label>
+                                <input type="text" class="form-control" placeholder="John Doe" style="border-radius:8px;padding:10px 14px;border:1.5px solid #e0e0e0;">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label" style="font-weight:600;color:#444;">Email Address</label>
+                                <input type="email" class="form-control" placeholder="john@example.com" style="border-radius:8px;padding:10px 14px;border:1.5px solid #e0e0e0;">
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label" style="font-weight:600;color:#444;">Subject</label>
+                                <input type="text" class="form-control" placeholder="How can we help?" style="border-radius:8px;padding:10px 14px;border:1.5px solid #e0e0e0;">
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label" style="font-weight:600;color:#444;">Message</label>
+                                <textarea class="form-control" rows="5" placeholder="Write your message here..." style="border-radius:8px;padding:10px 14px;border:1.5px solid #e0e0e0;resize:none;"></textarea>
+                            </div>
+                            <div class="col-12 text-end">
+                                <button type="submit" class="btn-submit">Send Message <i class="bi bi-send ms-2"></i></button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

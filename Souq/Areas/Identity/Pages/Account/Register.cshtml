@@ -1,0 +1,55 @@
+@page
+@model Souq.Areas.Identity.Pages.Account.RegisterModel
+@{
+    ViewData["Title"] = "Register";
+}
+
+<div class="page-hero text-center mb-5">
+    <div class="container">
+        <h1>Join Marketo Today</h1>
+        <p class="mb-0 text-white-50">Create an account to start shopping and tracking your orders.</p>
+    </div>
+</div>
+
+<div class="container inner-page-content pt-0">
+    <div class="row justify-content-center">
+        <div class="col-md-5">
+            <div class="form-card">
+                <h3 class="text-center mb-4" style="color: var(--accent-color); font-weight: 700;">Create a New Account</h3>
+                <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
+                    <div asp-validation-summary="ModelOnly" class="text-danger mb-3" role="alert"></div>
+                    
+                    <div class="form-group mb-3">
+                        <label asp-for="Input.Email" class="form-label">Email Address</label>
+                        <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com" />
+                        <span asp-validation-for="Input.Email" class="text-danger small"></span>
+                    </div>
+                    
+                    <div class="form-group mb-3">
+                        <label asp-for="Input.Password" class="form-label">Password</label>
+                        <input asp-for="Input.Password" class="form-control" autocomplete="new-password" aria-required="true" placeholder="Create a password" />
+                        <span asp-validation-for="Input.Password" class="text-danger small"></span>
+                    </div>
+                    
+                    <div class="form-group mb-4">
+                        <label asp-for="Input.ConfirmPassword" class="form-label">Confirm Password</label>
+                        <input asp-for="Input.ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" placeholder="Confirm your password" />
+                        <span asp-validation-for="Input.ConfirmPassword" class="text-danger small"></span>
+                    </div>
+                    
+                    <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-submit mb-3">Register</button>
+                    
+                    <div class="text-center mt-3">
+                        <p class="mb-1">
+                            <a asp-page="./Login" asp-route-returnUrl="@Model.ReturnUrl" style="color: var(--accent-color); font-weight: 500; text-decoration: none;">Already have an account? Log in here</a>
+                        </p>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

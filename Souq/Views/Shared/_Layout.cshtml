@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>@ViewData["Title"] - Marketo</title>
+    <meta name="description" content="Marketo - Everything You Need, All in One Place">
+    <meta name="keywords" content="marketo, online shop, ecommerce, products, categories">
+
+    <!-- Favicons -->
+    <link href="~/assets/img/favicon.png" rel="icon">
+    <link href="~/assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com" rel="preconnect">
+    <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+
+    <!-- Vendor CSS Files -->
+    <link href="~/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="~/assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+    <link href="~/assets/vendor/aos/aos.css" rel="stylesheet">
+    <link href="~/assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+    <link href="~/assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+
+    <!-- Main CSS File -->
+    <link href="~/assets/css/main.css" rel="stylesheet">
+
+    <!-- Custom Overrides -->
+    <style>
+        :root {
+            --accent-color: #5b21b6;
+            --accent-color-hover: #4c1d95;
+        }
+
+        /* Navbar Cart + Auth badges */
+        .nav-cart-badge {
+            position: relative;
+            display: inline-block;
+        }
+
+        .nav-cart-badge .badge {
+            position: absolute;
+            top: -8px;
+            right: -10px;
+            font-size: 10px;
+            padding: 3px 5px;
+            background: var(--accent-color);
+            color: #fff;
+            border-radius: 50%;
+            line-height: 1;
+        }
+
+        /* Admin panel button in nav */
+        .btn-admin {
+            background: transparent;
+            border: 1px solid rgba(255,255,255,0.4);
+            color: inherit;
+            padding: 6px 16px;
+            border-radius: 4px;
+            font-size: 13px;
+            transition: all 0.3s;
+            text-decoration: none;
+            margin-left: 8px;
+        }
+
+        .btn-admin:hover {
+            background: var(--accent-color);
+            border-color: var(--accent-color);
+            color: #fff;
+        }
+
+        /* Page hero banner for inner pages */
+        .page-hero {
+            background: var(--accent-color);
+            padding: 80px 0 40px;
+            margin-top: 70px;
+            color: #fff;
+        }
+
+        .page-hero h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+        }
+
+        .page-hero .breadcrumb-item a { color: rgba(255,255,255,0.8); text-decoration: none; }
+        .page-hero .breadcrumb-item.active { color: #fff; }
+        .page-hero .breadcrumb-item + .breadcrumb-item::before { color: rgba(255,255,255,0.6); }
+
+        /* Section spacer for inner pages */
+        .inner-page-content {
+            padding: 60px 0;
+        }
+
+        /* Styled table */
+        .styled-table {
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
+
+        .styled-table thead th {
+            background: var(--accent-color);
+            color: #fff;
+            border: none;
+            font-weight: 600;
+            padding: 14px 16px;
+        }
+
+        .styled-table tbody tr {
+            border-bottom: 1px solid #f0f0f0;
+            transition: background 0.2s;
+        }
+
+        .styled-table tbody tr:hover {
+            background: #fff8f8;
+        }
+
+        .styled-table tbody td {
+            padding: 14px 16px;
+            vertical-align: middle;
+        }
+
+        /* Admin action buttons */
+        .btn-action {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 5px 12px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .btn-action-edit { background: #e3f2fd; color: #1565c0; }
+
+            .btn-action-edit:hover {
+                background: #5b21b6;
+                color: #fff;
+            }
+
+        .btn-action-details {
+            background: #e8f5e9;
+            color: #5b21b6;
+        }
+
+            .btn-action-details:hover {
+                background: #5b21b6;
+                color: #fff;
+            }
+
+        .btn-action-delete {
+            background: #ffebee;
+            color: #5b21b6;
+        }
+
+            .btn-action-delete:hover {
+                background: #5b21b6;
+                color: #fff;
+            }
+
+        /* Styled form card */
+        .form-card {
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+            padding: 36px 40px;
+        }
+
+        .form-card .form-label {
+            font-weight: 600;
+            color: #444;
+            margin-bottom: 6px;
+        }
+
+        .form-card .form-control {
+            border-radius: 8px;
+            padding: 10px 14px;
+            border: 1.5px solid #e0e0e0;
+            transition: border-color 0.2s;
+        }
+
+        .form-card .form-control:focus {
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 3px rgba(232,69,69,0.1);
+        }
+
+        .btn-submit {
+            background: var(--accent-color);
+            color: #fff;
+            border: none;
+            padding: 12px 32px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 15px;
+            transition: background 0.2s, transform 0.1s;
+            cursor: pointer;
+        }
+
+        .btn-submit:hover {
+            background: var(--accent-color-hover);
+            transform: translateY(-1px);
+        }
+
+        /* Product card for shop pages */
+        .product-card {
+            background: #fff;
+            border-radius: 14px;
+            overflow: hidden;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.07);
+            transition: transform 0.3s, box-shadow 0.3s;
+            height: 100%;
+        }
+
+        .product-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 12px 32px rgba(0,0,0,0.12);
+        }
+
+        .product-card .card-img-wrap {
+            height: 220px;
+            overflow: hidden;
+            background: #f8f8f8;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .product-card .card-img-wrap img {
+            height: 100%;
+            width: 100%;
+            object-fit: cover;
+            transition: transform 0.4s;
+        }
+
+        .product-card:hover .card-img-wrap img {
+            transform: scale(1.05);
+        }
+
+        .product-card .card-body {
+            padding: 18px 20px;
+        }
+
+        .product-card .card-title {
+            font-weight: 700;
+            font-size: 16px;
+            margin-bottom: 6px;
+            color: #222;
+        }
+
+        .product-card .card-text {
+            font-size: 13px;
+            color: #777;
+            margin-bottom: 12px;
+            line-height: 1.5;
+        }
+
+        .product-card .price-tag {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--accent-color);
+        }
+
+        .product-card .card-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 14px;
+        }
+
+        .btn-cart {
+            background: var(--accent-color);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            padding: 8px 16px;
+            font-size: 13px;
+            font-weight: 600;
+            flex: 1;
+            transition: background 0.2s;
+            text-decoration: none;
+            text-align: center;
+        }
+
+        .btn-cart:hover { background: var(--accent-color-hover); color: #fff; }
+
+        .btn-details {
+            background: #f0f0f0;
+            color: #444;
+            border: none;
+            border-radius: 8px;
+            padding: 8px 14px;
+            font-size: 13px;
+            font-weight: 600;
+            transition: background 0.2s;
+            text-decoration: none;
+            text-align: center;
+        }
+
+        .btn-details:hover { background: #ddd; color: #222; }
+
+        /* Category card */
+        .category-card {
+            background: #fff;
+            border-radius: 14px;
+            overflow: hidden;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.07);
+            transition: transform 0.3s, box-shadow 0.3s;
+            height: 100%;
+            text-align: center;
+        }
+
+        .category-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 12px 32px rgba(0,0,0,0.12);
+        }
+
+        .category-card .cat-img-wrap {
+            height: 180px;
+            overflow: hidden;
+            background: linear-gradient(135deg, #ffe0e0, #fff0f0);
+        }
+
+        .category-card .cat-img-wrap img {
+            height: 100%;
+            width: 100%;
+            object-fit: cover;
+        }
+
+        .category-card .cat-icon {
+            font-size: 48px;
+            color: var(--accent-color);
+            padding: 30px 0 16px;
+        }
+
+        .category-card .cat-body {
+            padding: 16px 20px 22px;
+        }
+
+        .category-card h5 {
+            font-weight: 700;
+            font-size: 16px;
+            margin-bottom: 8px;
+        }
+
+        .category-card p {
+            font-size: 13px;
+            color: #777;
+            margin-bottom: 14px;
+        }
+
+        /* No-photo placeholder */
+        .no-photo-placeholder {
+            background: linear-gradient(135deg, #ffe0e0, #fff0f0);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            width: 100%;
+        }
+
+        .no-photo-placeholder i {
+            font-size: 48px;
+            color: var(--accent-color);
+            opacity: 0.5;
+        }
+    </style>
+
+    <!-- =======================================================
+    * Template Name: Techie
+    * Template URL: https://bootstrapmade.com/techie-free-skin-bootstrap-3/
+    * Updated: Aug 07 2024 with Bootstrap v5.3.3
+    * Author: BootstrapMade.com
+    * License: https://bootstrapmade.com/license/
+    ======================================================== -->
+</head>
+
+<body class="index-page">
+
+    <header id="header" class="header d-flex align-items-center fixed-top">
+        <div class="container-fluid container-xl position-relative d-flex align-items-center">
+
+            <a asp-controller="Home" asp-action="Index" class="logo d-flex align-items-center me-auto">
+                <h1 class="sitename">Marketo</h1>
+            </a>
+
+            <nav id="navmenu" class="navmenu">
+                <ul>
+                    <li><a asp-controller="Home" asp-action="Index">Home</a></li>
+                    <li><a asp-controller="Home" asp-action="Categories">Categories</a></li>
+                    <li><a asp-controller="Products" asp-action="Index">Products</a></li>
+
+                    <li><a href="/#contact">Contact</a></li>
+                </ul>
+                <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+            </nav>
+
+            <a class="btn-getstarted ms-3" asp-controller="Home" asp-action="Cart">
+                <i class="bi bi-cart3 me-1"></i> Cart
+            </a>
+
+            <partial name="_LoginPartial" />
+
+        </div>
+    </header>
+
+    <main class="main">
+        @RenderBody()
+    </main>
+
+    <!-- Footer -->
+    <footer id="footer" class="footer accent-background">
+
+        <div class="container footer-top">
+            <div class="row gy-4">
+                <div class="col-lg-5 col-md-12 footer-about">
+                    <a asp-controller="Home" asp-action="Index" class="logo d-flex align-items-center">
+                        <span class="sitename">Marketo</span>
+                    </a>
+                    <p>Your one-stop destination for quality products at unbeatable prices. Shop with confidence — fast delivery, easy returns, and excellent customer support.</p>
+                    <div class="social-links d-flex mt-4">
+                        <a href=""><i class="bi bi-twitter-x"></i></a>
+                        <a href=""><i class="bi bi-facebook"></i></a>
+                        <a href=""><i class="bi bi-instagram"></i></a>
+                        <a href=""><i class="bi bi-linkedin"></i></a>
+                    </div>
+                </div>
+
+                <div class="col-lg-2 col-6 footer-links">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a asp-controller="Home" asp-action="Index">Home</a></li>
+                        <li><a asp-controller="Home" asp-action="Categories">Categories</a></li>
+                        <li><a asp-controller="Products" asp-action="Index">All Products</a></li>
+                        <li><a asp-controller="Home" asp-action="Cart">My Cart</a></li>
+                        <li><a href="/#contact">Contact</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-lg-2 col-6 footer-links">
+                    <h4>Our Services</h4>
+                    <ul>
+                        <li><a href="#">Free Shipping</a></li>
+                        <li><a href="#">Easy Returns</a></li>
+                        <li><a href="#">Secure Payment</a></li>
+                        <li><a href="#">24/7 Support</a></li>
+                        <li><a href="#">Loyalty Rewards</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-lg-3 col-md-12 footer-contact text-center text-md-start">
+                    <h4>Contact Us</h4>
+                    <p>A108 Adam Street</p>
+                    <p>New York, NY 535022</p>
+                    <p>United States</p>
+                    <p class="mt-4"><strong>Phone:</strong> <span>+1 5589 55488 55</span></p>
+                    <p><strong>Email:</strong> <span>info@marketo.com</span></p>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="container copyright text-center mt-4">
+            <p>© <span>Copyright</span> <strong class="px-1 sitename">Marketo</strong> <span>All Rights Reserved</span></p>
+            <div class="credits">
+                Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+            </div>
+        </div>
+
+    </footer>
+
+    <!-- Scroll Top -->
+    <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+    <!-- Preloader -->
+    <div id="preloader"></div>
+
+    <!-- Vendor JS Files -->
+    <script src="~/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="~/assets/vendor/aos/aos.js"></script>
+    <script src="~/assets/vendor/glightbox/js/glightbox.min.js"></script>
+    <script src="~/assets/vendor/purecounter/purecounter_vanilla.js"></script>
+    <script src="~/assets/vendor/swiper/swiper-bundle.min.js"></script>
+    <script src="~/assets/vendor/imagesloaded/imagesloaded.pkgd.min.js"></script>
+    <script src="~/assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+
+    <!-- Main JS File -->
+    <script src="~/assets/js/main.js"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+
+</body>
+
+</html>

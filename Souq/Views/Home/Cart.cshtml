@@ -1,0 +1,77 @@
+@{
+    ViewData["Title"] = "My Cart";
+}
+
+<!-- Page Hero -->
+<div class="page-hero" style="background:linear-gradient(135deg,#5b21b6,#7c3aed);padding:120px 0 60px;">
+    <div class="container">
+        <h1 style="color:#fff;"><i class="bi bi-cart3 me-2"></i>My Cart</h1>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb mb-0">
+                <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index" style="color:rgba(255,255,255,0.7);">Home</a></li>
+                <li class="breadcrumb-item active" style="color:#fff;">Cart</li>
+            </ol>
+        </nav>
+    </div>
+</div>
+
+<!-- Cart Content -->
+<section class="inner-page-content">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 text-center" data-aos="fade-up">
+
+                <div style="background:#fff;border-radius:24px;padding:60px 40px;box-shadow:0 8px 40px rgba(0,0,0,0.08);">
+
+                    <!-- Cart Icon Animated -->
+                    <div style="position:relative;display:inline-block;margin-bottom:30px;">
+                        <div style="width:130px;height:130px;background:linear-gradient(135deg,#ede9fe,#f5f3ff);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto;">
+                            <i class="bi bi-cart-x" style="font-size:60px;color:#5b21b6;"></i>
+                        </div>
+                        <div style="position:absolute;top:4px;right:4px;width:36px;height:36px;background:#5b21b6;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:16px;border:3px solid #fff;">0</div>
+                    </div>
+
+                    <h2 style="font-weight:800;color:#222;font-size:1.8rem;margin-bottom:12px;">Your Cart is Empty</h2>
+                    <p style="color:#888;max-width:400px;margin:0 auto 32px;line-height:1.7;">
+                        Looks like you haven't added any products to your cart yet. Explore our wide range of products and find something you love!
+                    </p>
+
+                    <!-- Benefits -->
+                    <div class="row gy-3 mb-5 text-start" style="max-width:480px;margin-left:auto;margin-right:auto;">
+                        <div class="col-12">
+                            <div style="display:flex;align-items:center;gap:12px;padding:14px 16px;background:#f8f8f8;border-radius:10px;">
+                                <i class="bi bi-truck" style="color:#5b21b6;font-size:20px;flex-shrink:0;"></i>
+                                <span style="color:#555;font-size:14px;"><strong>Free shipping</strong> on orders over $50</span>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div style="display:flex;align-items:center;gap:12px;padding:14px 16px;background:#f8f8f8;border-radius:10px;">
+                                <i class="bi bi-shield-check" style="color:#5b21b6;font-size:20px;flex-shrink:0;"></i>
+                                <span style="color:#555;font-size:14px;"><strong>Secure checkout</strong> with 256-bit SSL encryption</span>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div style="display:flex;align-items:center;gap:12px;padding:14px 16px;background:#f8f8f8;border-radius:10px;">
+                                <i class="bi bi-arrow-repeat" style="color:#5b21b6;font-size:20px;flex-shrink:0;"></i>
+                                <span style="color:#555;font-size:14px;"><strong>Free returns</strong> within 30 days of purchase</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- CTA Buttons -->
+                    <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
+                        <a asp-controller="Products" asp-action="Index"
+                           class="btn-submit" style="display:inline-flex;align-items:center;gap:8px;padding:14px 36px;border-radius:10px;text-decoration:none;font-size:15px;">
+                            <i class="bi bi-shop"></i> Start Shopping
+                        </a>
+                        <a asp-controller="Home" asp-action="Categories"
+                           class="btn-details" style="display:inline-flex;align-items:center;gap:8px;padding:14px 28px;border-radius:10px;font-size:15px;">
+                            <i class="bi bi-grid"></i> Browse Categories
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,103 @@
+@model IEnumerable<Souq.Models.Product>
+
+@{
+    ViewData["Title"] = "Products";
+}
+
+<!-- Page Hero -->
+<div class="page-hero" style="background:linear-gradient(135deg,#5b21b6,#7c3aed);padding:120px 0 60px;">
+    <div class="container d-flex align-items-center justify-content-between flex-wrap gap-3">
+        <div>
+            <h1 style="color:#fff;"><i class="bi bi-box-seam me-2"></i>All Products</h1>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb mb-0">
+                    <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index" style="color:rgba(255,255,255,0.7);">Home</a></li>
+                    <li class="breadcrumb-item active" style="color:#fff;">Products</li>
+                </ol>
+            </nav>
+        </div>
+        <a asp-action="Create" class="btn-submit" style="display:inline-flex;align-items:center;gap:8px;padding:10px 24px;border-radius:8px;text-decoration:none;">
+            <i class="bi bi-plus-circle"></i> Add New Product
+        </a>
+    </div>
+</div>
+
+<!-- Products Grid -->
+<section class="inner-page-content">
+    <div class="container">
+
+        @if (Model != null && Model.Any())
+        {
+            <div class="row gy-4">
+                @foreach (var item in Model)
+                {
+                    <div class="col-lg-4 col-md-6" data-aos="fade-up">
+                        <div class="product-card">
+                            <div class="card-img-wrap">
+                                @if (!string.IsNullOrEmpty(item.Photo))
+                                {
+                                    <img src="@item.Photo" alt="@item.Name">
+                                }
+                                else
+                                {
+                                    <div class="no-photo-placeholder">
+                                        <i class="bi bi-image" style="font-size:52px;color:#5b21b6;opacity:0.35;"></i>
+                                    </div>
+                                }
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title">@item.Name</h5>
+                                @if (!string.IsNullOrEmpty(item.Description))
+                                {
+                                    <p class="card-text">
+                                        @(item.Description?.Length > 80 ? item.Description.Substring(0, 80) + "..." : item.Description)
+                                    </p>
+                                }
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <span class="price-tag">
+                                        @if (item.Price.HasValue)
+                                        {
+                                            @($"${item.Price:0.00}")
+                                        }
+                                        else
+                                        {
+                                            <span style="font-size:14px;color:#999;">No price</span>
+                                        }
+                                    </span>
+                                    <span style="font-size:12px;color:#aaa;background:#f5f5f5;padding:3px 10px;border-radius:20px;">
+                                        Cat #@item.Catid
+                                    </span>
+                                </div>
+                                <div class="card-actions">
+                                    <a asp-action="Details" asp-route-id="@item.Id" class="btn-cart">
+                                        <i class="bi bi-eye me-1"></i> View Details
+                                    </a>
+                                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn-details" title="Edit">
+                                        <i class="bi bi-pencil"></i>
+                                    </a>
+                                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn-details" title="Delete"
+                                       style="background:#ffebee;color:#c62828;"
+                                       onclick="return confirm('Delete this product?')">
+                                        <i class="bi bi-trash"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+        else
+        {
+            <div class="text-center py-5" data-aos="fade-up">
+                <i class="bi bi-box-seam" style="font-size:80px;color:#5b21b6;opacity:0.3;"></i>
+                <h4 style="color:#666;margin-top:20px;">No Products Found</h4>
+                <p style="color:#999;">Start by adding your first product to the catalogue.</p>
+                <a asp-action="Create" class="btn-submit" style="display:inline-block;margin-top:16px;padding:12px 32px;border-radius:8px;text-decoration:none;">
+                    <i class="bi bi-plus-circle me-2"></i>Add First Product
+                </a>
+            </div>
+        }
+
+    </div>
+</section>

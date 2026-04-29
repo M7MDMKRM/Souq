@@ -1,0 +1,90 @@
+@model Souq.Models.Product
+
+@{
+    ViewData["Title"] = "Delete Product";
+}
+
+<!-- Page Hero -->
+<div class="page-hero" style="background:linear-gradient(135deg,#c62828,#b71c1c);">
+    <div class="container">
+        <h1><i class="bi bi-trash me-2"></i>Delete Product</h1>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb mb-0">
+                <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Home</a></li>
+                <li class="breadcrumb-item"><a asp-action="Index">Products</a></li>
+                <li class="breadcrumb-item active">Delete</li>
+            </ol>
+        </nav>
+    </div>
+</div>
+
+<section class="inner-page-content">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-6 col-md-8" data-aos="fade-up">
+                <div style="background:#fff;border-radius:20px;padding:40px;box-shadow:0 8px 32px rgba(0,0,0,0.08);text-align:center;">
+
+                    <!-- Warning Icon -->
+                    <div style="width:90px;height:90px;background:#ffebee;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 20px;">
+                        <i class="bi bi-exclamation-triangle-fill" style="font-size:40px;color:#c62828;"></i>
+                    </div>
+
+                    <h3 style="font-weight:800;color:#222;margin-bottom:8px;">Delete this Product?</h3>
+                    <p style="color:#888;margin-bottom:28px;">This action <strong>cannot be undone</strong>. Please review the product details before confirming.</p>
+
+                    <!-- Product Preview -->
+                    <div style="background:#f9f9f9;border-radius:14px;padding:24px;text-align:left;margin-bottom:28px;border:1px solid #f0f0f0;">
+                        @if (!string.IsNullOrEmpty(Model?.Photo))
+                        {
+                            <img src="@Model.Photo" alt="@Model.Name"
+                                 style="width:100%;height:180px;object-fit:cover;border-radius:10px;margin-bottom:16px;">
+                        }
+                        <div style="display:flex;flex-direction:column;gap:10px;">
+                            <div style="display:flex;justify-content:space-between;align-items:center;">
+                                <span style="font-size:12px;font-weight:600;color:#999;text-transform:uppercase;">Name</span>
+                                <span style="font-weight:700;color:#222;">@Model?.Name</span>
+                            </div>
+                            @if (Model?.Price.HasValue == true)
+                            {
+                                <div style="display:flex;justify-content:space-between;align-items:center;border-top:1px solid #eee;padding-top:10px;">
+                                    <span style="font-size:12px;font-weight:600;color:#999;text-transform:uppercase;">Price</span>
+                                    <span style="font-weight:800;color:#e84545;font-size:18px;">$@Model.Price</span>
+                                </div>
+                            }
+                            @if (!string.IsNullOrEmpty(Model?.Description))
+                            {
+                                <div style="border-top:1px solid #eee;padding-top:10px;">
+                                    <span style="font-size:12px;font-weight:600;color:#999;text-transform:uppercase;display:block;margin-bottom:4px;">Description</span>
+                                    <span style="color:#555;font-size:14px;">
+                                        @(Model.Description?.Length > 100 ? Model.Description.Substring(0, 100) + "..." : Model.Description)
+                                    </span>
+                                </div>
+                            }
+                            @if (Model?.Catid.HasValue == true)
+                            {
+                                <div style="display:flex;justify-content:space-between;align-items:center;border-top:1px solid #eee;padding-top:10px;">
+                                    <span style="font-size:12px;font-weight:600;color:#999;text-transform:uppercase;">Category</span>
+                                    <span style="background:#f0f0f0;color:#555;padding:3px 10px;border-radius:20px;font-size:13px;">#@Model.Catid</span>
+                                </div>
+                            }
+                        </div>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <form asp-action="Delete" style="display:inline;">
+                        <input type="hidden" asp-for="Id" />
+                        <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
+                            <button type="submit" style="background:#c62828;color:#fff;border:none;padding:13px 32px;border-radius:10px;font-weight:700;font-size:15px;cursor:pointer;display:inline-flex;align-items:center;gap:8px;transition:background 0.2s;"
+                                    onmouseover="this.style.background='#b71c1c'" onmouseout="this.style.background='#c62828'">
+                                <i class="bi bi-trash-fill"></i> Yes, Delete It
+                            </button>
+                            <a asp-action="Index" class="btn-details" style="padding:13px 28px;border-radius:10px;display:inline-flex;align-items:center;gap:8px;font-size:15px;">
+                                <i class="bi bi-arrow-left"></i> Cancel
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

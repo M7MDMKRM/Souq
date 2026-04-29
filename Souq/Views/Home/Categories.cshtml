@@ -1,0 +1,126 @@
+@model List<Souq.Models.Category>
+
+@{
+    ViewData["Title"] = "Categories";
+}
+
+<!-- Page Hero -->
+<div class="page-hero" style="background:linear-gradient(135deg,#5b21b6,#7c3aed);padding:120px 0 60px;">
+    <div class="container">
+        <h1 style="color:#fff;"><i class="bi bi-grid me-2"></i>Shop by Category</h1>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb mb-0">
+                <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index" style="color:rgba(255,255,255,0.7);">Home</a></li>
+                <li class="breadcrumb-item active" style="color:#fff;">Categories</li>
+            </ol>
+        </nav>
+    </div>
+</div>
+
+<!-- Categories Section -->
+<section class="inner-page-content">
+    <div class="container">
+
+        @if (Model != null && Model.Count > 0)
+        {
+            <div class="row gy-4">
+                @foreach (var item in Model)
+                {
+                    string icon = "bi bi-grid-3x3-gap";
+                    if (item.Name == "Food & Beverages") icon = "bi bi-cup-straw";
+                    else if (item.Name == "Fashion & Clothing") icon = "bi bi-bag-heart";
+                    else if (item.Name == "Electronics & Tech") icon = "bi bi-phone";
+                    else if (item.Name == "Sports & Fitness") icon = "bi bi-trophy";
+                    else if (item.Name == "Home & Decor") icon = "bi bi-house-heart";
+                    else if (item.Name == "Health & Beauty") icon = "bi bi-heart-pulse";
+
+                    <div class="col-lg-4 col-md-6" data-aos="fade-up">
+                        <div class="category-card">
+                            <div class="cat-img-wrap" style="background:linear-gradient(135deg,#ede9fe,#f5f3ff);display:flex;align-items:center;justify-content:center;min-height:160px;border-radius:12px 12px 0 0;">
+                                @if (!string.IsNullOrEmpty(item.Photo))
+                                {
+                                    <img src="@item.Photo" alt="@item.Name" style="width:100%;height:160px;object-fit:cover;border-radius:12px 12px 0 0;">
+                                }
+                                else
+                                {
+                                    <i class="@icon" style="font-size:60px;color:#5b21b6;opacity:0.7;"></i>
+                                }
+                            </div>
+                            <div class="cat-body">
+                                <h5 style="color:#5b21b6;font-weight:700;">@item.Name</h5>
+                                @if (!string.IsNullOrEmpty(item.Description))
+                                {
+                                    <p style="color:#666;">@item.Description</p>
+                                }
+                                <a asp-controller="Products" asp-action="Index"
+                                   class="btn-cart" style="display:inline-block;padding:9px 24px;">
+                                    Browse Products <i class="bi bi-arrow-right ms-1"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+        else
+        {
+            <div class="row gy-4">
+                <div class="col-xl-4 col-lg-6" data-aos="fade-up" data-aos-delay="100">
+                    <div class="service-item d-flex">
+                        <div class="icon flex-shrink-0"><i class="bi bi-bag-heart"></i></div>
+                        <div>
+                            <h4 class="title"><a asp-controller="Products" asp-action="Index" class="stretched-link">Fashion &amp; Clothing</a></h4>
+                            <p class="description">Trendy clothing, accessories and fashion items for men and women</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-4 col-lg-6" data-aos="fade-up" data-aos-delay="200">
+                    <div class="service-item d-flex">
+                        <div class="icon flex-shrink-0"><i class="bi bi-trophy"></i></div>
+                        <div>
+                            <h4 class="title"><a asp-controller="Products" asp-action="Index" class="stretched-link">Sports &amp; Fitness</a></h4>
+                            <p class="description">Everything for your active lifestyle and fitness goals</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-4 col-lg-6" data-aos="fade-up" data-aos-delay="300">
+                    <div class="service-item d-flex">
+                        <div class="icon flex-shrink-0"><i class="bi bi-phone"></i></div>
+                        <div>
+                            <h4 class="title"><a asp-controller="Products" asp-action="Index" class="stretched-link">Electronics &amp; Tech</a></h4>
+                            <p class="description">Your one-stop destination for the latest gadgets and tech accessories</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-4 col-lg-6" data-aos="fade-up" data-aos-delay="400">
+                    <div class="service-item d-flex">
+                        <div class="icon flex-shrink-0"><i class="bi bi-cup-hot"></i></div>
+                        <div>
+                            <h4 class="title"><a asp-controller="Products" asp-action="Index" class="stretched-link">Food &amp; Beverages</a></h4>
+                            <p class="description">Fresh food, drinks, snacks and grocery items</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-4 col-lg-6" data-aos="fade-up" data-aos-delay="500">
+                    <div class="service-item d-flex">
+                        <div class="icon flex-shrink-0"><i class="bi bi-house-heart"></i></div>
+                        <div>
+                            <h4 class="title"><a asp-controller="Products" asp-action="Index" class="stretched-link">Home &amp; Decor</a></h4>
+                            <p class="description">Furniture, lighting, and décor for every style and budget</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-4 col-lg-6" data-aos="fade-up" data-aos-delay="600">
+                    <div class="service-item d-flex">
+                        <div class="icon flex-shrink-0"><i class="bi bi-heart-pulse"></i></div>
+                        <div>
+                            <h4 class="title"><a asp-controller="Products" asp-action="Index" class="stretched-link">Health &amp; Beauty</a></h4>
+                            <p class="description">Premium skincare, makeup, and wellness products</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+
+    </div>
+</section>

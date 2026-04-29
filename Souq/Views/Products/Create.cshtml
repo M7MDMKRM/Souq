@@ -1,0 +1,94 @@
+@model Souq.Models.Product
+
+@{
+    ViewData["Title"] = "Add Product";
+}
+
+<!-- Page Hero -->
+<div class="page-hero" style="background:linear-gradient(135deg,#5b21b6,#7c3aed);padding:120px 0 60px;">
+    <div class="container">
+        <h1 style="color:#fff;"><i class="bi bi-plus-circle me-2"></i>Add New Product</h1>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb mb-0">
+                <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index" style="color:rgba(255,255,255,0.7);">Home</a></li>
+                <li class="breadcrumb-item"><a asp-action="Index" style="color:rgba(255,255,255,0.7);">Products</a></li>
+                <li class="breadcrumb-item active" style="color:#fff;">Create</li>
+            </ol>
+        </nav>
+    </div>
+</div>
+
+<section class="inner-page-content">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 col-md-10" data-aos="fade-up">
+                <div class="form-card">
+                    <div style="display:flex;align-items:center;gap:14px;margin-bottom:28px;padding-bottom:20px;border-bottom:1px solid #f0f0f0;">
+                        <div style="width:50px;height:50px;background:#ede9fe;border-radius:12px;display:flex;align-items:center;justify-content:center;">
+                            <i class="bi bi-box-seam" style="color:#5b21b6;font-size:22px;"></i>
+                        </div>
+                        <div>
+                            <h4 style="font-weight:700;margin:0;color:#ede9fe;">Product Information</h4>
+                            <p style="color:#999;font-size:13px;margin:2px 0 0;">Fill in the details for the new product</p>
+                        </div>
+                    </div>
+
+                    <form asp-action="Create" method="post" enctype="multipart/form-data">
+                        <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
+
+                        <div class="row gy-4">
+                            <div class="col-12">
+                                <label asp-for="Name" class="form-label">Product Name <span style="color:#5b21b6;">*</span></label>
+                                <input asp-for="Name" class="form-control" placeholder="Enter product name" />
+                                <span asp-validation-for="Name" class="text-danger" style="font-size:12px;"></span>
+                            </div>
+
+                            <div class="col-12">
+                                <label asp-for="Description" class="form-label">Description</label>
+                                <textarea asp-for="Description" class="form-control" rows="4" placeholder="Describe the product..." style="border-radius:8px;padding:10px 14px;border:1.5px solid #e0e0e0;resize:vertical;"></textarea>
+                                <span asp-validation-for="Description" class="text-danger" style="font-size:12px;"></span>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label asp-for="Price" class="form-label">Price ($) <span style="color:#5b21b6;">*</span></label>
+                                <div style="position:relative;">
+                                    <span style="position:absolute;left:14px;top:50%;transform:translateY(-50%);color:#999;font-weight:600;">$</span>
+                                    <input asp-for="Price" class="form-control" placeholder="0.00" style="padding-left:28px;" />
+                                </div>
+                                <span asp-validation-for="Price" class="text-danger" style="font-size:12px;"></span>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label asp-for="Catid" class="form-label">Category ID</label>
+                                <input asp-for="Catid" class="form-control" placeholder="Category number" />
+                                <span asp-validation-for="Catid" class="text-danger" style="font-size:12px;"></span>
+                            </div>
+
+                            <div class="col-12">
+                                <label class="form-label">Product Photo</label>
+                                <input type="file" name="PhotoFile" class="form-control" accept="image/*"
+                                       style="border-radius:8px;padding:10px 14px;border:1.5px solid #e0e0e0;" />
+                                <small style="color:#aaa;font-size:12px;margin-top:4px;display:block;">Upload a photo from your device</small>
+                            </div>
+                        </div>
+
+                        <div style="display:flex;gap:12px;margin-top:32px;padding-top:24px;border-top:1px solid #f0f0f0;">
+                            <button type="submit" class="btn-submit" style="padding:12px 32px;border-radius:8px;">
+                                <i class="bi bi-check-circle me-2"></i>Create Product
+                            </button>
+                            <a asp-action="Index" class="btn-details" style="padding:12px 24px;border-radius:8px;display:inline-flex;align-items:center;gap:6px;">
+                                <i class="bi bi-x-circle"></i> Cancel
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

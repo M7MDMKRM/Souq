@@ -1,0 +1,114 @@
+@model Souq.Models.Product
+
+@{
+    ViewData["Title"] = "Product Details";
+}
+
+<!-- Page Hero -->
+<div class="page-hero">
+    <div class="container">
+        <h1><i class="bi bi-info-circle me-2"></i>Product Details</h1>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb mb-0">
+                <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Home</a></li>
+                <li class="breadcrumb-item"><a asp-action="Index">Products</a></li>
+                <li class="breadcrumb-item active">@Model?.Name</li>
+            </ol>
+        </nav>
+    </div>
+</div>
+
+<!-- Product Detail -->
+<section class="inner-page-content">
+    <div class="container">
+        <div class="row gy-5 align-items-start">
+
+            <!-- Product Image -->
+            <div class="col-lg-5" data-aos="fade-right">
+                <div style="background:#fff;border-radius:20px;overflow:hidden;box-shadow:0 8px 32px rgba(0,0,0,0.1);aspect-ratio:1;display:flex;align-items:center;justify-content:center;">
+                    @if (!string.IsNullOrEmpty(Model?.Photo))
+                    {
+                        <img src="@Model.Photo" alt="@Model.Name" style="width:100%;height:100%;object-fit:cover;">
+                    }
+                    else
+                    {
+                        <div style="text-align:center;padding:40px;">
+                            <i class="bi bi-image" style="font-size:100px;color:#e84545;opacity:0.25;"></i>
+                            <p style="color:#bbb;margin-top:16px;font-size:14px;">No image available</p>
+                        </div>
+                    }
+                </div>
+            </div>
+
+            <!-- Product Info -->
+            <div class="col-lg-7" data-aos="fade-left">
+                <div style="background:#fff;border-radius:20px;padding:40px;box-shadow:0 8px 32px rgba(0,0,0,0.08);">
+
+                    @if (Model?.Catid.HasValue == true)
+                    {
+                        <span style="background:#ffebee;color:#e84545;font-size:12px;font-weight:600;padding:4px 14px;border-radius:20px;display:inline-block;margin-bottom:16px;">
+                            Category #@Model.Catid
+                        </span>
+                    }
+
+                    <h1 style="font-weight:800;font-size:2rem;color:#222;margin-bottom:12px;">@Model?.Name</h1>
+
+                    <div style="display:flex;align-items:center;gap:6px;margin-bottom:24px;">
+                        <span style="color:#f5a623;font-size:16px;">
+                            <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-half"></i>
+                        </span>
+                        <span style="color:#999;font-size:13px;">(Reviews)</span>
+                    </div>
+
+                    <div style="font-size:2.4rem;font-weight:800;color:#e84545;margin-bottom:24px;">
+                        @if (Model?.Price.HasValue == true)
+                        {
+                            @($"${Model.Price:0.00}")
+                        }
+                        else
+                        {
+                            <span style="font-size:16px;color:#999;">Price not set</span>
+                        }
+                    </div>
+
+                    @if (!string.IsNullOrEmpty(Model?.Description))
+                    {
+                        <div style="border-top:1px solid #f0f0f0;padding-top:20px;margin-bottom:24px;">
+                            <h5 style="font-weight:700;color:#333;margin-bottom:10px;">Description</h5>
+                            <p style="color:#666;line-height:1.8;">@Model.Description</p>
+                        </div>
+                    }
+
+                    <!-- Features -->
+                    <div style="display:flex;gap:20px;flex-wrap:wrap;margin-bottom:30px;">
+                        <div style="display:flex;align-items:center;gap:8px;color:#555;font-size:14px;">
+                            <i class="bi bi-truck" style="color:#e84545;font-size:18px;"></i> Free Shipping
+                        </div>
+                        <div style="display:flex;align-items:center;gap:8px;color:#555;font-size:14px;">
+                            <i class="bi bi-arrow-repeat" style="color:#e84545;font-size:18px;"></i> 30-Day Returns
+                        </div>
+                        <div style="display:flex;align-items:center;gap:8px;color:#555;font-size:14px;">
+                            <i class="bi bi-shield-check" style="color:#e84545;font-size:18px;"></i> Secure Payment
+                        </div>
+                    </div>
+
+                    <!-- Actions -->
+                    <div style="display:flex;gap:12px;flex-wrap:wrap;">
+                        <a asp-controller="Home" asp-action="Cart"
+                           class="btn-submit" style="display:inline-flex;align-items:center;gap:8px;padding:14px 32px;border-radius:10px;text-decoration:none;font-size:15px;">
+                            <i class="bi bi-cart-plus"></i> Add to Cart
+                        </a>
+                        <a asp-action="Edit" asp-route-id="@Model?.Id"
+                           class="btn-details" style="display:inline-flex;align-items:center;gap:8px;padding:14px 24px;border-radius:10px;font-size:15px;">
+                            <i class="bi bi-pencil"></i> Edit
+                        </a>
+                        <a asp-action="Index"
+                           class="btn-details" style="display:inline-flex;align-items:center;gap:8px;padding:14px 24px;border-radius:10px;font-size:15px;">
+                            <i class="bi bi-arrow-left"></i> Back
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
