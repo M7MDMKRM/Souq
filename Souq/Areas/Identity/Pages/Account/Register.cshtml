@@ -4,51 +4,78 @@
     ViewData["Title"] = "Register";
 }
 
-<div class="page-hero text-center mb-5">
-    <div class="container">
-        <h1>Join Marketo Today</h1>
-        <p class="mb-0 text-white-50">Create an account to start shopping and tracking your orders.</p>
-    </div>
-</div>
+<div class="position-relative overflow-hidden min-vh-100 d-flex align-items-center justify-content-center pt-5 pb-5" style="background: linear-gradient(135deg, #5b21b6 0%, #310d6b 100%);">
+    
+    <!-- Animated Decorative Elements -->
+    <div class="position-absolute" style="top: -100px; right: -100px; width: 400px; height: 400px; background: rgba(255,255,255,0.05); border-radius: 50%;"></div>
+    <div class="position-absolute" style="bottom: -50px; left: -50px; width: 300px; height: 300px; background: rgba(255,255,255,0.03); border-radius: 50%;"></div>
 
-<div class="container inner-page-content pt-0">
-    <div class="row justify-content-center">
-        <div class="col-md-5">
-            <div class="form-card">
-                <h3 class="text-center mb-4" style="color: var(--accent-color); font-weight: 700;">Create a New Account</h3>
-                <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
-                    <div asp-validation-summary="ModelOnly" class="text-danger mb-3" role="alert"></div>
-                    
-                    <div class="form-group mb-3">
-                        <label asp-for="Input.Email" class="form-label">Email Address</label>
-                        <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com" />
-                        <span asp-validation-for="Input.Email" class="text-danger small"></span>
+    <div class="container position-relative mt-5" style="z-index: 2;">
+        <div class="row justify-content-center">
+            <div class="col-lg-5 col-md-8 animate-fade-up">
+                <div class="bg-white p-4 p-md-5 shadow-lg border-0" style="border-radius: 35px; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5) !important;">
+                    <div class="text-center mb-5">
+                        <div class="d-inline-flex align-items-center justify-content-center p-3 rounded-circle mb-4" style="background: rgba(91, 33, 182, 0.1); border: 1px solid rgba(91, 33, 182, 0.1);">
+                            <i class="bi bi-person-plus-fill fs-1" style="color: #5b21b6;"></i>
+                        </div>
+                        <h2 class="fw-bold text-dark mb-2">Join Marketo</h2>
+                        <p class="text-muted small">Create your account to start your journey</p>
                     </div>
-                    
-                    <div class="form-group mb-3">
-                        <label asp-for="Input.Password" class="form-label">Password</label>
-                        <input asp-for="Input.Password" class="form-control" autocomplete="new-password" aria-required="true" placeholder="Create a password" />
-                        <span asp-validation-for="Input.Password" class="text-danger small"></span>
-                    </div>
-                    
-                    <div class="form-group mb-4">
-                        <label asp-for="Input.ConfirmPassword" class="form-label">Confirm Password</label>
-                        <input asp-for="Input.ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" placeholder="Confirm your password" />
-                        <span asp-validation-for="Input.ConfirmPassword" class="text-danger small"></span>
-                    </div>
-                    
-                    <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-submit mb-3">Register</button>
-                    
-                    <div class="text-center mt-3">
-                        <p class="mb-1">
-                            <a asp-page="./Login" asp-route-returnUrl="@Model.ReturnUrl" style="color: var(--accent-color); font-weight: 500; text-decoration: none;">Already have an account? Log in here</a>
-                        </p>
-                    </div>
-                </form>
+
+                    <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
+                        <div asp-validation-summary="ModelOnly" class="alert alert-danger py-2 small mb-4" role="alert"></div>
+                        
+                        <div class="form-floating mb-3">
+                            <input asp-for="Input.Email" class="form-control border-0 bg-light rounded-4" autocomplete="username" aria-required="true" placeholder="name@example.com" style="height: 60px;" />
+                            <label asp-for="Input.Email" class="text-muted">Email address</label>
+                            <span asp-validation-for="Input.Email" class="text-danger small mt-1 d-block px-2"></span>
+                        </div>
+                        
+                        <div class="form-floating mb-3">
+                            <input asp-for="Input.Password" class="form-control border-0 bg-light rounded-4" autocomplete="new-password" aria-required="true" placeholder="password" style="height: 60px;" />
+                            <label asp-for="Input.Password" class="text-muted">Create Password</label>
+                            <span asp-validation-for="Input.Password" class="text-danger small mt-1 d-block px-2"></span>
+                        </div>
+                        
+                        <div class="form-floating mb-4">
+                            <input asp-for="Input.ConfirmPassword" class="form-control border-0 bg-light rounded-4" autocomplete="new-password" aria-required="true" placeholder="password" style="height: 60px;" />
+                            <label asp-for="Input.ConfirmPassword" class="text-muted">Confirm Password</label>
+                            <span asp-validation-for="Input.ConfirmPassword" class="text-danger small mt-1 d-block px-2"></span>
+                        </div>
+                        
+                        <button id="registerSubmit" type="submit" class="w-100 btn btn-primary rounded-pill py-3 fw-bold shadow-sm mb-4 border-0" style="background: #5b21b6;">
+                            Create Account <i class="bi bi-rocket-takeoff ms-2"></i>
+                        </button>
+                        
+                        <div class="text-center">
+                            <span class="text-muted small">Already a member?</span>
+                            <a asp-page="./Login" asp-route-returnUrl="@Model.ReturnUrl" class="small fw-bold text-decoration-none ms-2" style="color: #5b21b6;">Sign in here</a>
+                        </div>
+                    </form>
+                </div>
+                
+                <p class="text-center mt-4 text-white-50 small" style="opacity: 0.7;">
+                    By registering, you agree to our Terms and Privacy Policy.
+                </p>
             </div>
         </div>
     </div>
 </div>
+
+<style>
+    .form-control:focus {
+        background-color: #fff !important;
+        box-shadow: 0 0 0 4px rgba(91, 33, 182, 0.1) !important;
+        border: 1px solid #5b21b6 !important;
+    }
+    .animate-fade-up {
+        animation: fadeUp 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    }
+    @@keyframes fadeUp {
+        from { opacity: 0; transform: translateY(30px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+</style>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />

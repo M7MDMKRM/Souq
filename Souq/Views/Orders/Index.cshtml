@@ -1,0 +1,85 @@
+@model IEnumerable<Souq.Models.Order>
+@{
+    ViewData["Title"] = "My Orders - Marketo";
+}
+
+<div class="pt-5 pb-5" style="background: linear-gradient(135deg, #5b21b6 0%, #310d6b 100%);">
+    <div class="container pt-5 mt-4">
+        <h1 class="fw-bold text-white mb-2 animate-fade-up"><i class="bi bi-box-seam me-2"></i>My Order History</h1>
+        <p class="text-white-50 lead animate-fade-up">Track your purchases and view order details.</p>
+    </div>
+</div>
+
+<div class="bg-theme-light py-5 min-vh-100">
+    <div class="container">
+        @if (Model != null && Model.Any())
+        {
+            <div class="bg-white rounded-4 shadow-sm overflow-hidden animate-fade-up">
+                <div class="table-responsive">
+                    <table class="table table-hover mb-0">
+                        <thead class="bg-light">
+                            <tr>
+                                <th class="ps-4 py-3 text-uppercase small fw-bold text-muted">Order ID</th>
+                                <th class="py-3 text-uppercase small fw-bold text-muted">Date</th>
+                                <th class="py-3 text-uppercase small fw-bold text-muted">Amount</th>
+                                <th class="py-3 text-uppercase small fw-bold text-muted text-center">Status</th>
+                                <th class="pe-4 py-3 text-end text-uppercase small fw-bold text-muted">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody class="border-top-0">
+                            @foreach (var item in Model)
+                            {
+                                <tr class="align-middle">
+                                    <td class="ps-4 py-4 fw-bold text-dark">#@item.Id</td>
+                                    <td class="py-4 text-muted">@item.OrderDate.ToString("MMM dd, yyyy")</td>
+                                    <td class="py-4 fw-bold" style="color: #5b21b6;">EGP @item.TotalAmount</td>
+                                    <td class="py-4 text-center">
+                                        @{
+                                            var badgeClass = item.Status switch
+                                            {
+                                                "Pending" => "bg-warning bg-opacity-10 text-warning",
+                                                "Shipped" => "bg-primary bg-opacity-10 text-primary",
+                                                "Delivered" => "bg-success bg-opacity-10 text-success",
+                                                "Cancelled" => "bg-danger bg-opacity-10 text-danger",
+                                                _ => "bg-secondary bg-opacity-10 text-secondary"
+                                            };
+                                        }
+                                        <span class="badge rounded-pill px-3 py-2 @badgeClass">@item.Status</span>
+                                    </td>
+                                    <td class="pe-4 py-4 text-end">
+                                        <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-outline-primary btn-sm rounded-pill px-4">
+                                            View Details
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="text-center py-5 animate-fade-up">
+                <div class="bg-white rounded-circle d-inline-block p-4 mb-4 shadow-sm">
+                    <i class="bi bi-cart-x display-1 text-muted opacity-25"></i>
+                </div>
+                <h4 class="fw-bold text-dark">No orders yet</h4>
+                <p class="text-muted">You haven't placed any orders yet. Start shopping now!</p>
+                <a asp-controller="Products" asp-action="Index" class="btn btn-primary rounded-pill px-5 py-3 fw-bold shadow-lg border-0" style="background: #5b21b6;">
+                    Back to Shop
+                </a>
+            </div>
+        }
+    </div>
+</div>
+
+<style>
+    .animate-fade-up {
+        animation: fadeUp 0.8s ease-out forwards;
+    }
+    @@keyframes fadeUp {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+</style>

@@ -1,0 +1,88 @@
+@model IEnumerable<Souq.Models.Wishlist>
+@{
+    ViewData["Title"] = "My Favorites - Marketo";
+}
+
+<div class="pt-5 pb-5" style="background: linear-gradient(135deg, #5b21b6 0%, #310d6b 100%);">
+    <div class="container pt-5 mt-4 text-center">
+        <h1 class="fw-bold text-white mb-2 animate-fade-up"><i class="bi bi-heart-fill me-2 text-danger"></i>My Wishlist</h1>
+        <p class="text-white-50 lead animate-fade-up">Items you've saved to buy later.</p>
+    </div>
+</div>
+
+<div class="bg-theme-light py-5 min-vh-100">
+    <div class="container">
+        @if (Model != null && Model.Any())
+        {
+            <div class="row g-4">
+                @foreach (var item in Model)
+                {
+                    <div class="col-lg-3 col-md-4 col-sm-6 animate-fade-up">
+                        <div class="bg-white rounded-4 shadow-sm h-100 p-3 transition-hover border-0 position-relative">
+                            
+                            <!-- Remove Button -->
+                            <form asp-action="Remove" asp-route-id="@item.Id" method="post" class="position-absolute top-0 end-0 m-3" style="z-index: 10;">
+                                <button type="submit" class="btn btn-light btn-sm rounded-circle shadow-sm text-danger p-0 d-flex align-items-center justify-content-center" style="width: 32px; height: 32px;">
+                                    <i class="bi bi-x-lg"></i>
+                                </button>
+                            </form>
+
+                            <!-- Image -->
+                            <div class="rounded-4 overflow-hidden mb-3" style="height: 200px; background: #fdfdfd;">
+                                <img src="@item.Product?.Photo" class="w-100 h-100 object-fit-contain p-2" alt="@item.Product?.Name">
+                            </div>
+
+                            <!-- Content -->
+                            <div class="text-center">
+                                <h6 class="fw-bold text-dark mb-2 text-truncate">@item.Product?.Name</h6>
+                                <h5 class="fw-bold mb-3" style="color: #5b21b6;">EGP @item.Product?.Price</h5>
+                                
+                                <div class="d-grid gap-2">
+                                    <form asp-controller="Home" asp-action="AddToCart" method="post">
+                                        <input type="hidden" name="productId" value="@item.ProductId" />
+                                        <button type="submit" class="btn btn-primary w-100 rounded-pill py-2 fw-bold shadow-sm border-0" style="background: #5b21b6;">
+                                            <i class="bi bi-cart-plus me-1"></i>Add to Cart
+                                        </button>
+                                    </form>
+                                    <a asp-controller="Products" asp-action="Details" asp-route-id="@item.ProductId" class="btn btn-outline-light text-dark btn-sm rounded-pill py-2 fw-bold">
+                                        View Details
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+        else
+        {
+            <div class="text-center py-5 animate-fade-up">
+                <div class="bg-white bg-opacity-50 rounded-circle d-inline-block p-4 mb-4 shadow-sm">
+                    <i class="bi bi-heart display-1 text-muted opacity-25"></i>
+                </div>
+                <h4 class="fw-bold text-dark">Your wishlist is empty</h4>
+                <p class="text-muted mb-4">Start adding items you love to your wishlist!</p>
+                <a asp-controller="Products" asp-action="Index" class="btn btn-primary rounded-pill px-5 py-3 fw-bold shadow-lg border-0" style="background: #5b21b6;">
+                    Explore Products
+                </a>
+            </div>
+        }
+    </div>
+</div>
+
+<style>
+    .transition-hover {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .transition-hover:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 1rem 3rem rgba(0,0,0,0.08) !important;
+    }
+    .animate-fade-up {
+        animation: fadeUp 0.8s ease-out forwards;
+    }
+    @@keyframes fadeUp {
+        from { opacity: 0; transform: translateY(30px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+</style>

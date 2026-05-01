@@ -1,0 +1,70 @@
+@{
+    ViewData["Title"] = "Order Success";
+}
+
+<div class="position-relative overflow-hidden min-vh-100 d-flex align-items-center justify-content-center pt-5 pb-5" style="background: linear-gradient(135deg, #5b21b6 0%, #310d6b 100%);">
+    
+    <!-- Animated Decorative Elements -->
+    <div class="position-absolute" style="top: -100px; right: -100px; width: 400px; height: 400px; background: rgba(255,255,255,0.05); border-radius: 50%;"></div>
+    <div class="position-absolute" style="bottom: -50px; left: -50px; width: 300px; height: 300px; background: rgba(255,255,255,0.03); border-radius: 50%;"></div>
+
+    <div class="container position-relative mt-5" style="z-index: 2;">
+        <div class="row justify-content-center">
+            <div class="col-lg-6 text-center animate-fade-up">
+                <div class="bg-white p-5 rounded-5 shadow-lg border-0 position-relative overflow-hidden" style="box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5) !important;">
+                    
+                    <!-- Decorative background inside card -->
+                    <div class="position-absolute" style="top: -50px; right: -50px; width: 150px; height: 150px; background: rgba(16, 185, 129, 0.05); border-radius: 50%;"></div>
+
+                    <div class="mb-4">
+                        <div class="bg-success bg-opacity-10 d-inline-flex align-items-center justify-content-center rounded-circle mb-4" style="width: 120px; height: 120px; border: 1px solid rgba(16, 185, 129, 0.1);">
+                            <i class="bi bi-check-circle-fill text-success" style="font-size: 60px;"></i>
+                        </div>
+                        <h2 class="fw-bold text-dark mb-3">Order Placed Successfully!</h2>
+                        <p class="text-muted fs-5 mb-5 px-3">Thank you for your purchase. We've received your order and we'll notify you as soon as it's shipped.</p>
+                    </div>
+
+                    <div class="d-flex flex-column gap-3 px-md-5">
+                        <a asp-controller="Home" asp-action="Index" class="btn btn-primary rounded-pill py-3 fw-bold shadow-sm border-0" style="background: #5b21b6;">
+                            Return to Shopping <i class="bi bi-shop ms-2"></i>
+                        </a>
+                        <p class="small text-muted mb-0 mt-2">Order ID: #MARK-@(Guid.NewGuid().ToString().Substring(0,8).ToUpper())</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .animate-fade-up {
+        animation: fadeUp 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    }
+    @@keyframes fadeUp {
+        from { opacity: 0; transform: translateY(30px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+</style>
+
+<!-- Confetti Effect -->
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+<script>
+    window.onload = function() {
+        var count = 200;
+        var defaults = {
+          origin: { y: 0.7 }
+        };
+
+        function fire(particleRatio, opts) {
+          confetti(Object.assign({}, defaults, opts, {
+            particleCount: Math.floor(count * particleRatio)
+          }));
+        }
+
+        fire(0.25, { spread: 26, startVelocity: 55, });
+        fire(0.2, { spread: 60, });
+        fire(0.35, { spread: 100, decay: 0.91, scalar: 0.8 });
+        fire(0.1, { spread: 120, startVelocity: 25, decay: 0.92, scalar: 1.2 });
+        fire(0.1, { spread: 120, startVelocity: 45, });
+    };
+</script>

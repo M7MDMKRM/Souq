@@ -2,25 +2,60 @@
 @inject SignInManager<IdentityUser> SignInManager
 @inject UserManager<IdentityUser> UserManager
 
-<ul class="d-flex align-items-center gap-3 list-unstyled mb-0 ms-3">
-@if (SignInManager.IsSignedIn(User))
-{
-    <li>
-        <a class="btn-admin" asp-controller="Dashboard" asp-action="Index" title="Dashboard">Dashboard</a>
-    </li>
-    <li>
-        <form class="form-inline m-0 p-0" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-            <button type="submit" class="btn-admin border-0 bg-transparent text-white" style="cursor: pointer;">Logout</button>
-        </form>
-    </li>
-}
-else
-{
-    <li>
-        <a class="btn-admin" asp-area="Identity" asp-page="/Account/Register">Register</a>
-    </li>
-    <li>
-        <a class="btn-admin" asp-area="Identity" asp-page="/Account/Login">Login</a>
-    </li>
-}
+<ul class="d-flex align-items-center gap-3 list-unstyled mb-0 ms-lg-3">
+    @if (SignInManager.IsSignedIn(User))
+    {
+        <li>
+            <a class="nav-link fw-bold px-3 py-1 rounded-pill transition-all" asp-controller="Orders" asp-action="Index"
+               style="font-size: 14px; color: rgba(255,255,255,0.9); border: 1px solid rgba(255,255,255,0.2); background: rgba(255,255,255,0.05);">
+                <i class="bi bi-box-seam me-1"></i> My Orders
+            </a>
+        </li>
+        <li>
+            <a class="nav-link fw-bold px-3 py-1 rounded-pill transition-all" asp-controller="Dashboard" asp-action="Index"
+               style="font-size: 14px; color: rgba(255,255,255,0.9); border: 1px solid rgba(255,255,255,0.2); background: rgba(255,255,255,0.05);">
+                <i class="bi bi-speedometer2 me-1"></i> Dashboard
+            </a>
+        </li>
+        <li>
+            <form class="form-inline m-0 p-0" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                <button type="submit" class="nav-link btn btn-link fw-bold border-0 p-0 transition-all"
+                        style="font-size: 14px; color: rgba(255,255,255,0.9); text-decoration: none;">
+                    Logout <i class="bi bi-box-arrow-right ms-1"></i>
+                </button>
+            </form>
+        </li>
+    }
+    else
+    {
+        <li>
+            <a class="nav-link fw-bold px-3 py-1 rounded-pill transition-all" asp-area="Identity" asp-page="/Account/Register"
+               style="font-size: 14px; color: rgba(255,255,255,0.9); border: 1px solid rgba(255,255,255,0.2);">
+                Register
+            </a>
+        </li>
+        <li>
+            <a class="nav-link fw-bold px-3 py-2 rounded-pill shadow-sm transition-all text-dark bg-white" asp-area="Identity" asp-page="/Account/Login"
+               style="font-size: 14px;">
+                Login
+            </a>
+        </li>
+    }
 </ul>
+
+<style>
+    .transition-all {
+        transition: all 0.3s ease;
+    }
+
+    .nav-link:hover {
+        opacity: 1 !important;
+        transform: translateY(-1px);
+        background: rgba(255,255,255,0.2) !important;
+        color: #fff !important;
+    }
+    /* Fix for visible text on white backgrounds when scrolled */
+    .scrolled .nav-link {
+        color: #fff !important;
+    }
+</style>

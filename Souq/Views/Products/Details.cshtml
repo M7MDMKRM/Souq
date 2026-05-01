@@ -1,114 +1,130 @@
 @model Souq.Models.Product
-
 @{
-    ViewData["Title"] = "Product Details";
+    ViewData["Title"] = Model?.Name + " | Marketo";
 }
 
-<!-- Page Hero -->
-<div class="page-hero">
-    <div class="container">
-        <h1><i class="bi bi-info-circle me-2"></i>Product Details</h1>
-        <nav aria-label="breadcrumb">
-            <ol class="breadcrumb mb-0">
-                <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Home</a></li>
-                <li class="breadcrumb-item"><a asp-action="Index">Products</a></li>
-                <li class="breadcrumb-item active">@Model?.Name</li>
+<div class="pt-5 pb-5" style="background: linear-gradient(135deg, #5b21b6 0%, #310d6b 100%);">
+    <div class="container pt-5 mt-4">
+        <nav aria-label="breadcrumb" class="animate-fade-up">
+            <ol class="breadcrumb mb-2">
+                <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index" class="text-white-50">Home</a></li>
+                <li class="breadcrumb-item"><a asp-controller="Products" asp-action="Index" class="text-white-50">Products</a></li>
+                <li class="breadcrumb-item active text-white" aria-current="page">@Model?.Name</li>
             </ol>
         </nav>
+        <h1 class="display-5 fw-bold text-white animate-fade-up">Product Details</h1>
     </div>
 </div>
 
-<!-- Product Detail -->
-<section class="inner-page-content">
+<div class="bg-theme-light py-5 min-vh-100">
     <div class="container">
-        <div class="row gy-5 align-items-start">
-
-            <!-- Product Image -->
-            <div class="col-lg-5" data-aos="fade-right">
-                <div style="background:#fff;border-radius:20px;overflow:hidden;box-shadow:0 8px 32px rgba(0,0,0,0.1);aspect-ratio:1;display:flex;align-items:center;justify-content:center;">
-                    @if (!string.IsNullOrEmpty(Model?.Photo))
-                    {
-                        <img src="@Model.Photo" alt="@Model.Name" style="width:100%;height:100%;object-fit:cover;">
-                    }
-                    else
-                    {
-                        <div style="text-align:center;padding:40px;">
-                            <i class="bi bi-image" style="font-size:100px;color:#e84545;opacity:0.25;"></i>
-                            <p style="color:#bbb;margin-top:16px;font-size:14px;">No image available</p>
+        <div class="bg-white rounded-5 shadow-lg overflow-hidden animate-fade-up border-0">
+            <div class="row g-0">
+                <!-- Product Image Container -->
+                <div class="col-lg-5 d-flex align-items-center justify-content-center p-4 p-md-5" style="background-color: #f8f9fa;">
+                    <div class="product-image-card bg-white rounded-4 shadow-sm p-4 w-100 position-relative d-flex align-items-center justify-content-center" style="min-height: 400px; border: 1px solid rgba(0,0,0,0.05);">
+                        <div class="position-absolute top-0 start-0 m-3">
+                            <span class="badge rounded-pill bg-light text-primary shadow-sm px-3 py-2 fw-bold" style="font-size: 0.75rem;">ID #@Model?.Id</span>
                         </div>
-                    }
+                        <img src="@Model?.Photo" class="img-fluid transition-transform" style="max-height: 350px; object-fit: contain;" alt="@Model?.Name">
+                    </div>
                 </div>
-            </div>
 
-            <!-- Product Info -->
-            <div class="col-lg-7" data-aos="fade-left">
-                <div style="background:#fff;border-radius:20px;padding:40px;box-shadow:0 8px 32px rgba(0,0,0,0.08);">
-
-                    @if (Model?.Catid.HasValue == true)
-                    {
-                        <span style="background:#ffebee;color:#e84545;font-size:12px;font-weight:600;padding:4px 14px;border-radius:20px;display:inline-block;margin-bottom:16px;">
-                            Category #@Model.Catid
-                        </span>
-                    }
-
-                    <h1 style="font-weight:800;font-size:2rem;color:#222;margin-bottom:12px;">@Model?.Name</h1>
-
-                    <div style="display:flex;align-items:center;gap:6px;margin-bottom:24px;">
-                        <span style="color:#f5a623;font-size:16px;">
-                            <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-half"></i>
-                        </span>
-                        <span style="color:#999;font-size:13px;">(Reviews)</span>
-                    </div>
-
-                    <div style="font-size:2.4rem;font-weight:800;color:#e84545;margin-bottom:24px;">
-                        @if (Model?.Price.HasValue == true)
-                        {
-                            @($"${Model.Price:0.00}")
-                        }
-                        else
-                        {
-                            <span style="font-size:16px;color:#999;">Price not set</span>
-                        }
-                    </div>
-
-                    @if (!string.IsNullOrEmpty(Model?.Description))
-                    {
-                        <div style="border-top:1px solid #f0f0f0;padding-top:20px;margin-bottom:24px;">
-                            <h5 style="font-weight:700;color:#333;margin-bottom:10px;">Description</h5>
-                            <p style="color:#666;line-height:1.8;">@Model.Description</p>
+                <!-- Product Details Content -->
+                <div class="col-lg-7 p-4 p-md-5 d-flex flex-column">
+                    <div class="mb-auto">
+                        <span class="badge rounded-pill px-3 py-2 fw-bold mb-3" style="background-color: #e0e7ff; color: #4f46e5;">Category #@Model?.Catid</span>
+                        <h1 class="fw-bold text-dark display-5 mb-3">@Model?.Name</h1>
+                        
+                        <div class="d-flex align-items-center gap-3 mb-4 flex-wrap">
+                            <h2 class="fw-bold mb-0 display-6" style="color: #5b21b6;">EGP @Model?.Price</h2>
+                            <div class="d-flex gap-1 text-warning ms-md-3">
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-half"></i>
+                            </div>
+                            <span class="text-muted small fw-bold">(4.5/5 Customer Rating)</span>
                         </div>
-                    }
 
-                    <!-- Features -->
-                    <div style="display:flex;gap:20px;flex-wrap:wrap;margin-bottom:30px;">
-                        <div style="display:flex;align-items:center;gap:8px;color:#555;font-size:14px;">
-                            <i class="bi bi-truck" style="color:#e84545;font-size:18px;"></i> Free Shipping
-                        </div>
-                        <div style="display:flex;align-items:center;gap:8px;color:#555;font-size:14px;">
-                            <i class="bi bi-arrow-repeat" style="color:#e84545;font-size:18px;"></i> 30-Day Returns
-                        </div>
-                        <div style="display:flex;align-items:center;gap:8px;color:#555;font-size:14px;">
-                            <i class="bi bi-shield-check" style="color:#e84545;font-size:18px;"></i> Secure Payment
+                        <h5 class="fw-bold text-dark mb-2">Description</h5>
+                        <p class="text-muted mb-4" style="line-height: 1.6; font-size: 1.05rem;">
+                            @Model?.Description
+                        </p>
+
+                        <!-- Features List -->
+                        <div class="row g-3 mb-5">
+                            <div class="col-sm-6">
+                                <div class="d-flex align-items-center gap-2 text-muted small">
+                                    <i class="bi bi-truck text-primary"></i> Free Express Shipping
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="d-flex align-items-center gap-2 text-muted small">
+                                    <i class="bi bi-shield-check text-primary"></i> 2 Year Warranty
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="d-flex align-items-center gap-2 text-muted small">
+                                    <i class="bi bi-arrow-repeat text-primary"></i> 30-Day Easy Return
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="d-flex align-items-center gap-2 text-muted small">
+                                    <i class="bi bi-patch-check text-primary"></i> 100% Original Product
+                                </div>
+                            </div>
                         </div>
                     </div>
 
-                    <!-- Actions -->
-                    <div style="display:flex;gap:12px;flex-wrap:wrap;">
-                        <a asp-controller="Home" asp-action="Cart"
-                           class="btn-submit" style="display:inline-flex;align-items:center;gap:8px;padding:14px 32px;border-radius:10px;text-decoration:none;font-size:15px;">
-                            <i class="bi bi-cart-plus"></i> Add to Cart
-                        </a>
-                        <a asp-action="Edit" asp-route-id="@Model?.Id"
-                           class="btn-details" style="display:inline-flex;align-items:center;gap:8px;padding:14px 24px;border-radius:10px;font-size:15px;">
-                            <i class="bi bi-pencil"></i> Edit
-                        </a>
-                        <a asp-action="Index"
-                           class="btn-details" style="display:inline-flex;align-items:center;gap:8px;padding:14px 24px;border-radius:10px;font-size:15px;">
-                            <i class="bi bi-arrow-left"></i> Back
-                        </a>
+                    <!-- Action Buttons -->
+                    <div class="d-flex gap-3 pt-4 border-top">
+                        <form asp-controller="Home" asp-action="AddToCart" method="post" class="flex-grow-1">
+                            <input type="hidden" name="productId" value="@Model?.Id" />
+                            <button type="submit" class="btn btn-primary w-100 rounded-pill py-3 fw-bold shadow-lg border-0 d-flex align-items-center justify-content-center gap-2" style="background: #5b21b6;">
+                                <i class="bi bi-cart-plus fs-5"></i> Add to Shopping Cart
+                            </button>
+                        </form>
+                        <form asp-controller="Wishlist" asp-action="Toggle" method="post">
+                            <input type="hidden" name="productId" value="@Model?.Id" />
+                            <button type="submit" class="btn btn-outline-danger rounded-circle d-flex align-items-center justify-content-center shadow-sm" style="width: 58px; height: 58px; border-width: 1px;">
+                                <i class="bi bi-heart fs-4"></i>
+                            </button>
+                        </form>
                     </div>
                 </div>
             </div>
         </div>
+
+        <!-- Back Link -->
+        <div class="text-center mt-5 animate-fade-up">
+            <a asp-action="Index" class="text-decoration-none text-muted fw-bold hover-primary">
+                <i class="bi bi-arrow-left me-2"></i>Continue Browsing Marketplace
+            </a>
+        </div>
     </div>
-</section>
+</div>
+
+<style>
+    .animate-fade-up {
+        animation: fadeUp 0.8s ease-out forwards;
+    }
+    @@keyframes fadeUp {
+        from { opacity: 0; transform: translateY(30px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    .breadcrumb-item + .breadcrumb-item::before {
+        color: rgba(255, 255, 255, 0.5);
+        content: "/";
+    }
+    .hover-primary:hover {
+        color: #5b21b6 !important;
+    }
+    .product-image-card img {
+        transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .product-image-card:hover img {
+        transform: scale(1.08);
+    }
+</style>

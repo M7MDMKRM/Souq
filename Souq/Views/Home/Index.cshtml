@@ -1,5 +1,9 @@
+@model IEnumerable<Souq.Models.Product>
+@using System.Linq
+
 @{
     ViewData["Title"] = "Home";
+    Layout = "_Layout";
 }
 
 <!-- Hero Section -->
@@ -9,9 +13,40 @@
             <div class="col-lg-6 order-2 order-lg-1 d-flex flex-column justify-content-center" data-aos="fade-up">
                 <h1>Everything You Need,<br>All in One Place</h1>
                 <p>We are a passionate team dedicated to bringing you the best online shopping experience — quality products, unbeatable prices, and seamless delivery.</p>
-                <div class="d-flex gap-3 flex-wrap">
-                    <a asp-controller="Products" asp-action="Index" class="btn-get-started">Shop Now</a>
-                    <a asp-controller="Home" asp-action="Categories" class="btn-get-started" style="background:transparent;border:2px solid #fff;">Browse Categories</a>
+                <style>
+                    .hero-btn-primary {
+                        background: #ffffff;
+                        color: #5b21b6;
+                        border: none;
+                        transition: all 0.3s ease;
+                    }
+                    .hero-btn-primary:hover {
+                        background: #f3e8ff;
+                        color: #4c1d95;
+                        transform: translateY(-3px);
+                        box-shadow: 0 10px 25px rgba(0,0,0,0.2) !important;
+                    }
+                    .hero-btn-outline {
+                        background: rgba(255, 255, 255, 0.05);
+                        color: #ffffff;
+                        border: 2px solid rgba(255, 255, 255, 0.3);
+                        backdrop-filter: blur(10px);
+                        transition: all 0.3s ease;
+                    }
+                    .hero-btn-outline:hover {
+                        background: rgba(255, 255, 255, 0.15);
+                        border-color: #ffffff;
+                        color: #ffffff;
+                        transform: translateY(-3px);
+                    }
+                </style>
+                <div class="d-flex gap-3 flex-wrap mt-4">
+                    <a asp-controller="Products" asp-action="Index" class="btn hero-btn-primary btn-lg rounded-pill px-5 py-3 fw-bold shadow-lg">
+                        <i class="bi bi-cart3 me-2"></i>Shop Now
+                    </a>
+                    <a asp-controller="Home" asp-action="Categories" class="btn hero-btn-outline btn-lg rounded-pill px-5 py-3 fw-bold">
+                        <i class="bi bi-grid-1x2 me-2"></i>Browse Categories
+                    </a>
                 </div>
             </div>
             <div class="col-lg-6 order-1 order-lg-2 hero-img" data-aos="zoom-out">
@@ -20,7 +55,6 @@
         </div>
     </div>
 </section><!-- /Hero Section -->
-
 <!-- Stats Section -->
 <section class="section" style="background:#f9f9f9; padding: 40px 0;">
     <div class="container">
@@ -125,13 +159,12 @@
         </div>
 
         <div class="text-center mt-5" data-aos="fade-up">
-            <a asp-controller="Home" asp-action="Categories" class="btn-get-started" style="display:inline-block;padding:12px 36px;border-radius:6px;font-weight:600;">
+            <a asp-controller="Home" asp-action="Categories" class="btn btn-primary btn-lg rounded-pill px-5 py-3 fw-bold shadow-lg transition-hover" style="background: linear-gradient(135deg, #7c3aed 0%, #5b21b6 100%); border: none;">
                 View All Categories <i class="bi bi-arrow-right ms-2"></i>
             </a>
         </div>
     </div>
 </section><!-- /Categories Section -->
-
 <!-- About Section -->
 <section id="about" class="about section" style="background:#f9f9f9;">
     <div class="container section-title" data-aos="fade-up">
@@ -178,14 +211,15 @@
                     </div>
                 </div>
                 <div class="mt-4">
-                    <a asp-controller="Products" asp-action="Index" class="btn-get-started" style="display:inline-block;padding:12px 32px;border-radius:6px;font-weight:600;">
-                        Start Shopping
+                    <a asp-controller="Products" asp-action="Index" class="btn btn-primary btn-lg rounded-pill px-5 py-3 fw-bold shadow-lg transition-hover" style="background: linear-gradient(135deg, #7c3aed 0%, #5b21b6 100%); border: none;">
+                        Start Shopping <i class="bi bi-bag-check ms-2"></i>
                     </a>
                 </div>
             </div>
         </div>
     </div>
 </section><!-- /About Section -->
+
 <!-- Featured Products Section -->
 <section id="portfolio" class="portfolio section">
     <div class="container section-title" data-aos="fade-up">
@@ -194,97 +228,58 @@
     </div>
     <div class="container">
         <div class="row gy-4">
-
-            @* Product Card 1 *@
-            <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
-                <div class="product-card">
-                    <div class="card-img-wrap">
-                        <img src="~/assets/img/headphones1.png"
-                             style="width:150%;height:250px;object-fit:contain;padding:20px;
-                        transition: transform 0.5s ease;"
-                             onmouseover="this.style.transform='rotate(15deg) scale(1.1)'"
-                             onmouseout="this.style.transform='rotate(0deg) scale(1)'"
-                             alt="Headphones">
-                    </div>
-                    <div class="card-body">
-                        <h5 class="card-title">Premium Wireless Headphones</h5>
-                        <p class="card-text">Experience crystal-clear audio with our premium wireless headphones featuring active noise cancellation, 30-hour battery life, and ultra-soft ear cushions for all-day comfort. Perfect for music, calls, and everything in between.</p>
-                        <div class="d-flex align-items-center justify-content-between">
-                            <span class="price-tag">$89.99</span>
-                            <div style="color:#f5a623;">
-                                <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-half"></i>
+            @if (Model != null && Model.Any())
+            {
+                foreach (var item in Model)
+                {
+                    <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
+                        <div class="product-card">
+                            <div class="card-img-wrap">
+                                <a asp-controller="Products" asp-action="Details" asp-route-id="@item.Id">
+                                    <img src="@item.Photo"
+                                         style="width:100%;height:250px;object-fit:contain;padding:20px; transition: transform 0.5s ease;"
+                                         onmouseover="this.style.transform='rotate(15deg) scale(1.1)'"
+                                         onmouseout="this.style.transform='rotate(0deg) scale(1)'"
+                                         alt="@item.Name">
+                                </a>
+                            </div>
+                            <div class="card-body">
+                                <a asp-controller="Products" asp-action="Details" asp-route-id="@item.Id" class="text-decoration-none">
+                                    <h5 class="card-title">@item.Name</h5>
+                                </a>
+                                <p class="card-text text-muted" style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; height: 45px;">
+                                    @item.Description
+                                </p>
+                                <div class="d-flex align-items-center justify-content-between mb-4">
+                                    <span class="price-tag">EGP @item.Price</span>
+                                    <div style="color:#f5a623;">
+                                        <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-half"></i>
+                                    </div>
+                                </div>
+                                <div class="card-actions">
+                                    <form asp-controller="Home" asp-action="AddToCart" method="post" class="flex-grow-1">
+                                        <input type="hidden" name="productId" value="@item.Id" />
+                                        <button type="submit" class="btn-cart-modern w-100 border-0"><i class="bi bi-cart-plus me-1"></i>Add to Cart</button>
+                                    </form>
+                                    <a asp-controller="Products" asp-action="Details" asp-route-id="@item.Id" class="btn-details-modern"><i class="bi bi-eye"></i></a>
+                                </div>
                             </div>
                         </div>
-                        <div class="card-actions">
-                            <a asp-controller="Home" asp-action="Cart" class="btn-cart"><i class="bi bi-cart-plus me-1"></i>Add to Cart</a>
-                            <a asp-controller="Products" asp-action="Index" class="btn-details"><i class="bi bi-eye"></i></a>
-                        </div>
                     </div>
+                }
+            }
+            else
+            {
+                <div class="col-12 text-center py-5">
+                    <p class="text-muted">No featured products available at the moment.</p>
                 </div>
+            }
+
+            <div class="text-center mt-5" data-aos="fade-up" style="width: 100%;">
+                <a asp-controller="Products" asp-action="Index" class="btn btn-primary btn-lg rounded-pill px-5 py-3 fw-bold shadow-lg transition-hover" style="background: linear-gradient(135deg, #7c3aed 0%, #5b21b6 100%); border: none;">
+                    View All Products <i class="bi bi-arrow-right ms-2"></i>
+                </a>
             </div>
-
-            @* Product Card 2 *@
-            <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
-                <div class="product-card">
-                    <div class="card-img-wrap">
-                        <img src="~/assets/img/Smart watch.png"
-                             style="width:150%;height:250px;object-fit:contain;padding:20px;
-             transition: transform 0.5s ease;"
-                             onmouseover="this.style.transform='rotate(15deg) scale(1.1)'"
-                             onmouseout="this.style.transform='rotate(0deg) scale(1)'"
-                             alt="Smart Fitness Watch">
-                    </div>
-                    <div class="card-body">
-                        <h5 class="card-title">Smart Fitness Watch</h5>
-                        <p class="card-text">Stay on top of your health with our advanced fitness watch that tracks heart rate, steps, sleep, and workouts in real time. Features a sleek design, long battery life, and seamless smartphone notifications on your wrist.</p>
-                        <div class="d-flex align-items-center justify-content-between">
-                            <span class="price-tag">$66.50</span>
-                            <div style="color:#f5a623;">
-                                <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-half"></i>
-                            </div>
-                        </div>
-                        <div class="card-actions">
-                            <a asp-controller="Home" asp-action="Cart" class="btn-cart"><i class="bi bi-cart-plus me-1"></i>Add to Cart</a>
-                            <a asp-controller="Products" asp-action="Index" class="btn-details"><i class="bi bi-eye"></i></a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-
-            @* Product Card 3 *@
-            <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
-                <div class="product-card">
-                    <div class="card-img-wrap">
-                        <img src="~/assets/img/Classic Canvas Duffle Bag.png"
-                             style="width:150%;height:250px;object-fit:contain;padding:20px;
-             transition: transform 0.5s ease;"
-                             onmouseover="this.style.transform='rotate(15deg) scale(1.1)'"
-                             onmouseout="this.style.transform='rotate(0deg) scale(1)'"
-                             alt="Classic Canvas Duffle Bag">
-                    </div>
-                    <div class="card-body">
-                        <h5 class="card-title">Classic Canvas Duffle Bag</h5>
-                        <p class="card-text">A premium canvas duffle bag with genuine leather handles and straps, perfect for weekend getaways and gym sessions. Spacious main compartment with secure zip closure and adjustable shoulder strap for versatile carrying options.</p>
-                        <div class="d-flex align-items-center justify-content-between">
-                            <span class="price-tag">$50.60</span>
-                            <div style="color:#f5a623;">
-                                <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-half"></i>
-                            </div>
-                        </div>
-                        <div class="card-actions">
-                            <a asp-controller="Home" asp-action="Cart" class="btn-cart"><i class="bi bi-cart-plus me-1"></i>Add to Cart</a>
-                            <a asp-controller="Products" asp-action="Index" class="btn-details"><i class="bi bi-eye"></i></a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-
-        <div class="text-center mt-5" data-aos="fade-up">
-            <a asp-controller="Products" asp-action="Index" class="btn-get-started" style="display:inline-block;padding:12px 36px;border-radius:6px;font-weight:600;">
-                View All Products <i class="bi bi-arrow-right ms-2"></i>
-            </a>
         </div>
     </div>
 </section>
@@ -302,7 +297,7 @@
                         <i class="bi bi-truck" style="font-size:28px;color:#fff;"></i>
                     </div>
                     <h5 style="font-weight:700;margin-bottom:10px;color:#5b21b6;">Free Shipping</h5>
-                    <p style="color:#666;font-size:14px;line-height:1.6;">Free delivery on all orders over $50. Fast and reliable shipping worldwide.</p>
+                    <p style="color:#666;font-size:14px;line-height:1.6;">Free delivery on all orders over EGP 500. Fast and reliable shipping worldwide.</p>
                 </div>
             </div>
             <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="200">
@@ -435,23 +430,29 @@
             </div>
             <div class="col-lg-8">
                 <div style="background:#fff;border-radius:16px;padding:36px 40px;box-shadow:0 4px 20px rgba(0,0,0,0.07);">
-                    <form id="contactForm">
+                    @if (TempData["Success"] != null)
+                    {
+                        <div class="alert alert-success border-0 shadow-sm rounded-4 mb-4 animate-fade-up">
+                            <i class="bi bi-check-circle-fill me-2"></i> @TempData["Success"]
+                        </div>
+                    }
+                    <form asp-controller="Reviews" asp-action="Create" method="post">
                         <div class="row gy-4">
                             <div class="col-md-6">
                                 <label class="form-label" style="font-weight:600;color:#444;">Your Name</label>
-                                <input type="text" class="form-control" placeholder="John Doe" style="border-radius:8px;padding:10px 14px;border:1.5px solid #e0e0e0;">
+                                <input name="Name" type="text" class="form-control" placeholder="John Doe" style="border-radius:8px;padding:10px 14px;border:1.5px solid #e0e0e0;" required>
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label" style="font-weight:600;color:#444;">Email Address</label>
-                                <input type="email" class="form-control" placeholder="john@example.com" style="border-radius:8px;padding:10px 14px;border:1.5px solid #e0e0e0;">
+                                <input name="Email" type="email" class="form-control" placeholder="john@example.com" style="border-radius:8px;padding:10px 14px;border:1.5px solid #e0e0e0;" required>
                             </div>
                             <div class="col-12">
                                 <label class="form-label" style="font-weight:600;color:#444;">Subject</label>
-                                <input type="text" class="form-control" placeholder="How can we help?" style="border-radius:8px;padding:10px 14px;border:1.5px solid #e0e0e0;">
+                                <input name="Subject" type="text" class="form-control" placeholder="How can we help?" style="border-radius:8px;padding:10px 14px;border:1.5px solid #e0e0e0;" required>
                             </div>
                             <div class="col-12">
                                 <label class="form-label" style="font-weight:600;color:#444;">Message</label>
-                                <textarea class="form-control" rows="5" placeholder="Write your message here..." style="border-radius:8px;padding:10px 14px;border:1.5px solid #e0e0e0;resize:none;"></textarea>
+                                <textarea name="Description" class="form-control" rows="5" placeholder="Write your message here..." style="border-radius:8px;padding:10px 14px;border:1.5px solid #e0e0e0;resize:none;" required></textarea>
                             </div>
                             <div class="col-12 text-end">
                                 <button type="submit" class="btn-submit">Send Message <i class="bi bi-send ms-2"></i></button>

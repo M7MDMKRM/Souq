@@ -1,0 +1,264 @@
+@model IEnumerable<Souq.Models.Cart>
+@{
+    ViewData["Title"] = "Secure Checkout - Marketo";
+    decimal total = 0;
+}
+
+<div class="pt-5 pb-4" style="background: linear-gradient(135deg, #5b21b6 0%, #310d6b 100%);">
+    <div class="container pt-5 mt-2">
+        <h2 class="fw-bold text-white mb-0 text-center animate-fade-up">
+            <i class="bi bi-shield-lock-fill me-2"></i>Secure Checkout
+        </h2>
+        <p class="text-white-50 text-center mt-2 animate-fade-up">Complete your order by providing your shipping and payment details.</p>
+    </div>
+</div>
+
+<div class="bg-theme-light pb-5 min-vh-100">
+    <div class="container pt-5">
+        <form asp-action="PlaceOrder" method="post" id="checkoutForm">
+            <div class="row g-4">
+                <!-- Left Column: Shipping & Payment -->
+                <div class="col-lg-7 animate-fade-up">
+                    
+                    <!-- Shipping Section -->
+                    <div class="bg-white rounded-4 shadow-sm p-4 p-md-5 mb-4 border-0">
+                        <h4 class="fw-bold text-dark mb-4 d-flex align-items-center">
+                            <span class="bg-primary bg-opacity-10 text-primary rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 40px; height: 40px;">1</span>
+                            Shipping Information
+                        </h4>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label text-muted small fw-bold">First Name</label>
+                                <input type="text" name="FirstName" class="form-control border-0 bg-light rounded-3 py-3" placeholder="John" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label text-muted small fw-bold">Last Name</label>
+                                <input type="text" name="LastName" class="form-control border-0 bg-light rounded-3 py-3" placeholder="Doe" required>
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label text-muted small fw-bold">Address</label>
+                                <input type="text" name="Address" class="form-control border-0 bg-light rounded-3 py-3" placeholder="123 Street Name, Apartment 4B" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label text-muted small fw-bold">City</label>
+                                <input type="text" name="City" class="form-control border-0 bg-light rounded-3 py-3" placeholder="New York" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label text-muted small fw-bold">Phone Number</label>
+                                <input type="tel" name="Phone" class="form-control border-0 bg-light rounded-3 py-3" placeholder="+1 234 567 890" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Payment Section -->
+                    <div class="bg-white rounded-4 shadow-sm p-4 p-md-5 border-0">
+                        <h4 class="fw-bold text-dark mb-4 d-flex align-items-center">
+                            <span class="bg-primary bg-opacity-10 text-primary rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 40px; height: 40px;">2</span>
+                            Payment Method
+                        </h4>
+                        
+                        <div class="payment-options row g-3 mb-4">
+                            <!-- Card Option -->
+                            <div class="col-md-6">
+                                <label class="payment-card-option w-100 h-100">
+                                    <input type="radio" name="PaymentMethod" value="card" checked onchange="togglePaymentFields('card')">
+                                    <div class="option-content p-3 border rounded-4 text-center h-100 transition-all">
+                                        <i class="bi bi-credit-card-2-front fs-2 mb-2 d-block"></i>
+                                        <span class="fw-bold d-block">Credit Card</span>
+                                        <small class="text-muted">Visa, Mastercard</small>
+                                    </div>
+                                </label>
+                            </div>
+                            <!-- COD Option -->
+                            <div class="col-md-6">
+                                <label class="payment-card-option w-100 h-100">
+                                    <input type="radio" name="PaymentMethod" value="cod" onchange="togglePaymentFields('cod')">
+                                    <div class="option-content p-3 border rounded-4 text-center h-100 transition-all">
+                                        <i class="bi bi-cash-stack fs-2 mb-2 d-block"></i>
+                                        <span class="fw-bold d-block">Cash on Delivery</span>
+                                        <small class="text-muted">Pay at doorstep</small>
+                                    </div>
+                                </label>
+                            </div>
+                            <!-- PayPal Option -->
+                            <div class="col-md-6">
+                                <label class="payment-card-option w-100 h-100">
+                                    <input type="radio" name="PaymentMethod" value="paypal" onchange="togglePaymentFields('paypal')">
+                                    <div class="option-content p-3 border rounded-4 text-center h-100 transition-all">
+                                        <i class="bi bi-paypal fs-2 mb-2 d-block text-primary"></i>
+                                        <span class="fw-bold d-block">PayPal</span>
+                                        <small class="text-muted">Express Checkout</small>
+                                    </div>
+                                </label>
+                            </div>
+                            <!-- Wallet Option -->
+                            <div class="col-md-6">
+                                <label class="payment-card-option w-100 h-100">
+                                    <input type="radio" name="PaymentMethod" value="wallet" onchange="togglePaymentFields('wallet')">
+                                    <div class="option-content p-3 border rounded-4 text-center h-100 transition-all">
+                                        <i class="bi bi-phone-vibrate fs-2 mb-2 d-block"></i>
+                                        <span class="fw-bold d-block">Digital Wallets</span>
+                                        <small class="text-muted">InstaPay, Vodafone</small>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Card Details (Visible by default) -->
+                        <div id="cardFields" class="payment-details-box animate-fade-in">
+                            <div class="bg-light p-4 rounded-4 border-0 mb-3">
+                                <div class="mb-3">
+                                    <label class="form-label text-muted small fw-bold">Card Number</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text bg-white border-0"><i class="bi bi-credit-card"></i></span>
+                                        <input type="text" class="form-control border-0 bg-white" placeholder="0000 0000 0000 0000">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label text-muted small fw-bold">Expiry Date</label>
+                                        <input type="text" class="form-control border-0 bg-white" placeholder="MM / YY">
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label text-muted small fw-bold">CVV</label>
+                                        <input type="password" class="form-control border-0 bg-white" placeholder="***">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- PayPal Details -->
+                        <div id="paypalFields" class="payment-details-box d-none animate-fade-in">
+                            <div class="alert alert-primary border-0 rounded-4 p-4 text-center">
+                                <i class="bi bi-paypal display-4 mb-3 d-block"></i>
+                                <p class="mb-0">You will be redirected to PayPal to complete your payment securely.</p>
+                            </div>
+                        </div>
+
+                        <!-- COD Details -->
+                        <div id="codFields" class="payment-details-box d-none animate-fade-in">
+                            <div class="alert alert-secondary border-0 rounded-4 p-4">
+                                <div class="d-flex align-items-center gap-3">
+                                    <i class="bi bi-info-circle-fill fs-3"></i>
+                                    <p class="mb-0">An additional fee might apply for cash on delivery service. Please ensure someone is available at the address.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Wallet Details -->
+                        <div id="walletFields" class="payment-details-box d-none animate-fade-in">
+                            <div class="bg-light p-4 rounded-4 text-center">
+                                <p class="small text-muted mb-3">Send payment to the following number:</p>
+                                <h4 class="fw-bold mb-2">010 1234 5678</h4>
+                                <p class="small text-primary mb-0">Please upload a screenshot of the transaction after payment.</p>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- Right Column: Order Summary -->
+                <div class="col-lg-5 animate-fade-up" style="animation-delay: 0.1s;">
+                    <div class="bg-white rounded-4 shadow-lg p-4 sticky-top" style="top: 100px; border: 1px solid rgba(0,0,0,0.05);">
+                        <h5 class="fw-bold text-dark mb-4">Order Summary</h5>
+                        <div class="mb-4 order-items-list" style="max-height: 300px; overflow-y: auto;">
+                            @foreach (var item in Model)
+                            {
+                                var subtotal = (item.Product?.Price ?? 0) * item.Qty;
+                                total += subtotal;
+                                <div class="d-flex align-items-center gap-3 mb-3 pb-3 border-bottom border-light">
+                                    <img src="@item.Product?.Photo" class="rounded-3 shadow-sm" style="width: 60px; height: 60px; object-fit: contain; background: #f8f9fa;">
+                                    <div class="flex-grow-1">
+                                        <h6 class="small fw-bold mb-0">@item.Product?.Name</h6>
+                                        <small class="text-muted">Qty: @item.Qty</small>
+                                    </div>
+                                    <span class="fw-bold small text-dark">EGP @subtotal</span>
+                                </div>
+                            }
+                        </div>
+                        
+                        <div class="order-totals bg-light p-4 rounded-4">
+                            <div class="d-flex justify-content-between mb-2">
+                                <span class="text-muted">Subtotal</span>
+                                <span class="fw-bold">EGP @total</span>
+                            </div>
+                            <div class="d-flex justify-content-between mb-2">
+                                <span class="text-muted">Shipping</span>
+                                <span class="text-success fw-bold">FREE</span>
+                            </div>
+                            <div class="d-flex justify-content-between mb-2">
+                                <span class="text-muted">Tax (GST)</span>
+                                <span class="fw-bold">EGP 0.00</span>
+                            </div>
+                            <hr class="my-3 opacity-10">
+                            <div class="d-flex justify-content-between">
+                                <h5 class="fw-bold mb-0">Total Amount</h5>
+                                <h4 class="fw-bold mb-0" style="color: #5b21b6;">EGP @total</h4>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary w-100 rounded-pill py-3 mt-4 fw-bold shadow-lg transition-all" style="background: linear-gradient(135deg, #7c3aed 0%, #5b21b6 100%); border: none;">
+                            Complete Purchase <i class="bi bi-arrow-right-circle ms-2"></i>
+                        </button>
+                        
+                        <div class="text-center mt-3">
+                            <small class="text-muted"><i class="bi bi-lock-fill me-1"></i>SSL Secured & Encrypted</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<style>
+    .payment-card-option input {
+        display: none;
+    }
+    .payment-card-option .option-content {
+        cursor: pointer;
+        border: 2px solid #f1f3f5;
+        background: #fff;
+    }
+    .payment-card-option input:checked + .option-content {
+        border-color: #5b21b6;
+        background: rgba(91, 33, 182, 0.05);
+        color: #5b21b6;
+    }
+    .transition-all {
+        transition: all 0.3s ease;
+    }
+    .payment-card-option:hover .option-content {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    }
+    .animate-fade-in {
+        animation: fadeIn 0.4s ease-out forwards;
+    }
+    @@keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+</style>
+
+@section Scripts {
+    <script>
+        function togglePaymentFields(method) {
+            // Hide all
+            document.querySelectorAll('.payment-details-box').forEach(box => {
+                box.classList.add('d-none');
+            });
+            
+            // Show selected
+            if (method === 'card') {
+                document.getElementById('cardFields').classList.remove('d-none');
+            } else if (method === 'paypal') {
+                document.getElementById('paypalFields').classList.remove('d-none');
+            } else if (method === 'cod') {
+                document.getElementById('codFields').classList.remove('d-none');
+            } else if (method === 'wallet') {
+                document.getElementById('walletFields').classList.remove('d-none');
+            }
+        }
+    </script>
+}

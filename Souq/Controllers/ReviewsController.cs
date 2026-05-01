@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Souq.Models;
+
+using Microsoft.AspNetCore.Authorization;
 
 namespace Souq.Controllers
 {
@@ -19,12 +21,14 @@ namespace Souq.Controllers
         }
 
         // GET: Reviews
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Index()
         {
             return View(await _context.Reviews.ToListAsync());
         }
 
         // GET: Reviews/Details/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -59,12 +63,14 @@ namespace Souq.Controllers
             {
                 _context.Add(review);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                TempData["Success"] = "Thank you for your feedback! Your message has been sent successfully.";
+                return Redirect(Url.Action("Index", "Home") + "#contact");
             }
             return View(review);
         }
 
         // GET: Reviews/Edit/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -116,6 +122,7 @@ namespace Souq.Controllers
         }
 
         // GET: Reviews/Delete/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)

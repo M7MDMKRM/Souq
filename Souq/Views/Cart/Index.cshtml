@@ -1,0 +1,156 @@
+@model IEnumerable<Souq.Models.Cart>
+
+@{
+    ViewData["Title"] = "My Shopping Cart";
+    Layout = "_Layout";
+    decimal total = 0;
+}
+
+<!-- Page Header (To make white navbar visible and match theme) -->
+<div class="pt-5 pb-4" style="background: linear-gradient(135deg, #5b21b6 0%, #310d6b 100%);">
+    <div class="container pt-5 mt-2">
+        <div class="d-flex align-items-center justify-content-between animate-fade-up">
+            <h2 class="fw-bold text-white mb-0">
+                <i class="bi bi-cart3 me-2"></i>My Shopping Cart
+            </h2>
+            <div class="d-flex align-items-center gap-3">
+                <span class="badge rounded-pill bg-white text-dark shadow-sm px-4 py-2 fw-bold">
+                    @Model.Count() Items
+                </span>
+                <a asp-controller="Home" asp-action="Index" class="btn btn-outline-light rounded-pill px-3 py-1 small" style="font-size: 13px; border-color: rgba(255,255,255,0.3);">
+                    <i class="bi bi-arrow-left me-1"></i>Back
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="bg-theme-light pb-5 min-vh-100">
+    <div class="container pt-5">
+        @if (!Model.Any())
+        {
+            <div class="text-center py-5 animate-fade-up">
+                <div class="bg-white rounded-circle d-inline-flex align-items-center justify-content-center mb-4 shadow-sm" style="width: 150px; height: 150px; border: 2px dashed #dee2e6;">
+                    <i class="bi bi-cart-x display-1" style="color: #5b21b6;"></i>
+                </div>
+                <h3 class="fw-bold text-dark mb-2">Your cart is feeling lonely</h3>
+                <p class="text-muted mb-4 fs-5">Add some amazing products and bring it back to life!</p>
+                <a asp-controller="Home" asp-action="Index" class="btn btn-primary rounded-pill px-5 py-3 shadow-lg" style="background: #5b21b6; border: none; font-weight: 600;">
+                    Explore Products <i class="bi bi-arrow-right ms-2"></i>
+                </a>
+            </div>
+        }
+        else
+        {
+            <div class="row g-4">
+                <div class="col-lg-8 animate-fade-up">
+                    <div class="bg-white rounded-4 shadow-sm border-0 overflow-hidden">
+                        <div class="table-responsive">
+                            <table class="table table-hover align-middle mb-0">
+                                <thead class="bg-light">
+                                    <tr>
+                                        <th class="border-0 px-4 py-3 text-muted small text-uppercase">Product</th>
+                                        <th class="border-0 py-3 text-muted small text-uppercase text-center">Quantity</th>
+                                        <th class="border-0 py-3 text-muted small text-uppercase text-end">Price</th>
+                                        <th class="border-0 px-4 py-3 text-muted small text-uppercase text-end"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model)
+                                    {
+                                        var subtotal = (item.Product?.Price ?? 0) * item.Qty;
+                                        total += subtotal;
+                                        <tr>
+                                            <td class="px-4 py-4">
+                                                <div class="d-flex align-items-center gap-3">
+                                                    <div class="rounded-3 bg-light overflow-hidden" style="width: 80px; height: 80px; border: 1px solid #f0f0f0;">
+                                                        <img src="@item.Product?.Photo" class="w-100 h-100 object-fit-cover" alt="@item.Product?.Name">
+                                                    </div>
+                                                    <div>
+                                                        <h6 class="fw-bold text-dark mb-0">@item.Product?.Name</h6>
+                                                        <small class="text-muted">Unit: EGP @item.Product?.Price</small>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td class="text-center">
+                                                <form asp-action="UpdateQty" method="post" class="d-flex align-items-center justify-content-center gap-2">
+                                                    <input type="hidden" name="id" value="@item.Id" />
+                                                    <div class="input-group input-group-sm" style="max-width: 120px; border: 1px solid #dee2e6; border-radius: 12px; overflow: hidden;">
+                                                        <button class="btn btn-light border-0" type="submit" name="qty" value="@(item.Qty - 1)">-</button>
+                                                        <input type="text" class="form-control text-center border-0 fw-bold" value="@item.Qty" readonly style="background: #fff; width: 40px;">
+                                                        <button class="btn btn-light border-0" type="submit" name="qty" value="@(item.Qty + 1)">+</button>
+                                                    </div>
+                                                </form>
+                                            </td>
+                                            <td class="text-end fw-bold text-dark">EGP @subtotal</td>
+                                            <td class="text-end px-4">
+                                                <form asp-action="Remove" method="post">
+                                                    <input type="hidden" name="id" value="@item.Id" />
+                                                    <button type="submit" class="btn btn-link text-danger p-0 transition-hover" title="Remove Item">
+                                                        <i class="bi bi-trash3-fill"></i>
+                                                    </button>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 animate-fade-up" style="animation-delay: 0.1s;">
+                    <div class="bg-white rounded-4 shadow-lg border-0 p-4 sticky-top" style="top: 100px; z-index: 10; border: 1px solid #f1f3f5 !important;">
+                        <h5 class="fw-bold text-dark mb-4">Order Summary</h5>
+
+                        <div class="d-flex justify-content-between mb-3">
+                            <span class="text-muted">Subtotal</span>
+                            <span class="fw-bold text-dark">EGP @total</span>
+                        </div>
+                        <div class="d-flex justify-content-between mb-3">
+                            <span class="text-muted">Shipping</span>
+                            <span class="text-success fw-bold">FREE</span>
+                        </div>
+                        <hr class="my-4" style="border-color: #f1f3f5;">
+                        <div class="d-flex justify-content-between mb-4">
+                            <h5 class="fw-bold text-dark mb-0">Total Amount</h5>
+                            <h4 class="fw-bold mb-0" style="color: #5b21b6;">EGP @total</h4>
+                        </div>
+
+                        <button class="btn btn-primary w-100 rounded-pill py-3 fw-bold shadow-lg mb-3" style="background: #5b21b6; border: none;">
+                            Proceed to Checkout <i class="bi bi-arrow-right ms-2"></i>
+                        </button>
+
+                        <a asp-controller="Home" asp-action="Index" class="btn btn-light w-100 rounded-pill py-3 fw-bold border text-muted">
+                            <i class="bi bi-cart-plus me-2"></i>Continue Shopping
+                        </a>
+
+                        <div class="mt-4 pt-4 border-top text-center">
+                            <p class="small text-muted mb-3 fw-bold text-uppercase" style="font-size: 10px; letter-spacing: 1px;">Secure Payment Partners</p>
+                            <div class="d-flex justify-content-center gap-3 grayscale opacity-50">
+                                <i class="bi bi-paypal fs-4"></i>
+                                <i class="bi bi-credit-card-2-front fs-4"></i>
+                                <i class="bi bi-google-play fs-4"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+<style>
+    .transition-hover {
+        transition: all 0.3s;
+    }
+
+        .transition-hover:hover {
+            transform: scale(1.1);
+            color: #dc3545 !important;
+        }
+
+    .grayscale {
+        filter: grayscale(1);
+    }
+</style>

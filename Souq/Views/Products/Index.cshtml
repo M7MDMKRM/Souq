@@ -4,82 +4,100 @@
     ViewData["Title"] = "Products";
 }
 
-<!-- Page Hero -->
-<div class="page-hero" style="background:linear-gradient(135deg,#5b21b6,#7c3aed);padding:120px 0 60px;">
-    <div class="container d-flex align-items-center justify-content-between flex-wrap gap-3">
-        <div>
-            <h1 style="color:#fff;"><i class="bi bi-box-seam me-2"></i>All Products</h1>
-            <nav aria-label="breadcrumb">
-                <ol class="breadcrumb mb-0">
-                    <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index" style="color:rgba(255,255,255,0.7);">Home</a></li>
-                    <li class="breadcrumb-item active" style="color:#fff;">Products</li>
-                </ol>
-            </nav>
+<div class="pt-5 pb-5" style="background: linear-gradient(135deg, #5b21b6 0%, #310d6b 100%);">
+    <div class="container pt-5 mt-4 d-flex align-items-center justify-content-between flex-wrap gap-3">
+        <div class="animate-fade-up">
+            <h1 class="fw-bold text-white mb-1"><i class="bi bi-box-seam me-2"></i>@(ViewData["CategoryName"] ?? "Product Catalogue")</h1>
+            <p class="text-white-50 mb-0">Discover our curated collection of premium products @(ViewData["CategoryName"] != null ? $"in {ViewData["CategoryName"]}" : "")</p>
         </div>
-        <a asp-action="Create" class="btn-submit" style="display:inline-flex;align-items:center;gap:8px;padding:10px 24px;border-radius:8px;text-decoration:none;">
-            <i class="bi bi-plus-circle"></i> Add New Product
-        </a>
+        @if (User.IsInRole("Admin"))
+        {
+            <a asp-action="Create" class="btn btn-light rounded-pill px-4 py-2 fw-bold animate-fade-up" style="color: #5b21b6;">
+                <i class="bi bi-plus-lg me-2"></i>Add Product
+            </a>
+        }
     </div>
 </div>
 
-<!-- Products Grid -->
-<section class="inner-page-content">
+<div class="bg-theme-light py-5 min-vh-100">
     <div class="container">
-
         @if (Model != null && Model.Any())
         {
-            <div class="row gy-4">
+            <div class="row g-4">
                 @foreach (var item in Model)
                 {
-                    <div class="col-lg-4 col-md-6" data-aos="fade-up">
-                        <div class="product-card">
-                            <div class="card-img-wrap">
-                                @if (!string.IsNullOrEmpty(item.Photo))
+                    <div class="col-lg-4 col-md-6 animate-fade-up">
+                        <div class="bg-white rounded-4 shadow-sm h-100 p-3 transition-hover" style="border: 1px solid #f1f3f5;">
+                            <!-- Image Container -->
+                            <div class="position-relative overflow-hidden rounded-4 mb-3" style="height: 250px; background: #fdfdfd;">
+                                <a asp-controller="Products" asp-action="Details" asp-route-id="@item.Id">
+                                    <img src="@item.Photo" class="w-100 h-100 object-fit-contain p-2" alt="@item.Name">
+                                </a>
+                                @if (User.IsInRole("Admin"))
                                 {
-                                    <img src="@item.Photo" alt="@item.Name">
+                                    <a asp-action="Edit" asp-route-id="@item.Id" class="position-absolute top-0 start-0 m-3 btn btn-white btn-sm rounded-circle shadow-sm bg-white text-primary p-0 d-flex align-items-center justify-content-center" style="width: 35px; height: 35px; z-index: 5;">
+                                        <i class="bi bi-pencil-fill"></i>
+                                    </a>
                                 }
-                                else
-                                {
-                                    <div class="no-photo-placeholder">
-                                        <i class="bi bi-image" style="font-size:52px;color:#5b21b6;opacity:0.35;"></i>
-                                    </div>
-                                }
-                            </div>
-                            <div class="card-body">
-                                <h5 class="card-title">@item.Name</h5>
-                                @if (!string.IsNullOrEmpty(item.Description))
-                                {
-                                    <p class="card-text">
-                                        @(item.Description?.Length > 80 ? item.Description.Substring(0, 80) + "..." : item.Description)
-                                    </p>
-                                }
-                                <div class="d-flex align-items-center justify-content-between">
-                                    <span class="price-tag">
-                                        @if (item.Price.HasValue)
-                                        {
-                                            @($"${item.Price:0.00}")
-                                        }
-                                        else
-                                        {
-                                            <span style="font-size:14px;color:#999;">No price</span>
-                                        }
-                                    </span>
-                                    <span style="font-size:12px;color:#aaa;background:#f5f5f5;padding:3px 10px;border-radius:20px;">
+                                <div class="position-absolute top-0 end-0 m-3 d-flex flex-column gap-2">
+                                    <span class="badge rounded-pill bg-white text-dark shadow-sm px-3 py-2 fw-bold">
                                         Cat #@item.Catid
                                     </span>
+                                    <form asp-controller="Wishlist" asp-action="Toggle" method="post">
+                                        <input type="hidden" name="productId" value="@item.Id" />
+                                        <button type="submit" class="btn btn-white btn-sm rounded-circle shadow-sm bg-white text-danger p-0 d-flex align-items-center justify-content-center" style="width: 35px; height: 35px;">
+                                            <i class="bi bi-heart"></i>
+                                        </button>
+                                    </form>
                                 </div>
-                                <div class="card-actions">
-                                    <a asp-action="Details" asp-route-id="@item.Id" class="btn-cart">
-                                        <i class="bi bi-eye me-1"></i> View Details
+                            </div>
+
+                            <!-- Content -->
+                            <div class="px-2">
+                                <a asp-controller="Products" asp-action="Details" asp-route-id="@item.Id" class="text-decoration-none">
+                                    <h5 class="fw-bold text-dark mb-2">@item.Name</h5>
+                                </a>
+                                <p class="text-muted small mb-3" style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; height: 40px;">
+                                    @item.Description
+                                </p>
+                                
+                                <div class="d-flex align-items-center justify-content-between mb-4">
+                                    <h4 class="fw-bold mb-0" style="color: #5b21b6;">EGP @item.Price</h4>
+                                    <div class="d-flex gap-1 text-warning" style="font-size: 12px;">
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-half"></i>
+                                    </div>
+                                </div>
+
+                                <div class="d-flex gap-2">
+                                    <form asp-controller="Home" asp-action="AddToCart" method="post" class="flex-grow-1">
+                                        <input type="hidden" name="productId" value="@item.Id" />
+                                        <button type="submit" class="btn btn-primary w-100 rounded-pill py-2 fw-bold shadow-sm border-0" style="background: #5b21b6;">
+                                            <i class="bi bi-cart-plus me-1"></i>Add to Cart
+                                        </button>
+                                    </form>
+                                    
+                                    <!-- Details Button (Visible to everyone) -->
+                                    <a asp-controller="Products" asp-action="Details" asp-route-id="@item.Id" class="btn btn-light rounded-circle shadow-sm d-flex align-items-center justify-content-center" style="width: 42px; height: 42px;" title="View Details">
+                                        <i class="bi bi-eye"></i>
                                     </a>
-                                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn-details" title="Edit">
-                                        <i class="bi bi-pencil"></i>
-                                    </a>
-                                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn-details" title="Delete"
-                                       style="background:#ffebee;color:#c62828;"
-                                       onclick="return confirm('Delete this product?')">
-                                        <i class="bi bi-trash"></i>
-                                    </a>
+
+                                    @if (User.IsInRole("Admin"))
+                                    {
+                                        <div class="dropdown">
+                                            <button class="btn btn-light rounded-circle shadow-sm" type="button" data-bs-toggle="dropdown" style="width: 42px; height: 42px;">
+                                                <i class="bi bi-three-dots-vertical"></i>
+                                            </button>
+                                            <ul class="dropdown-menu dropdown-menu-end border-0 shadow-lg rounded-3 p-2">
+                                                <li><a class="dropdown-item rounded-2 py-2" asp-action="Edit" asp-route-id="@item.Id"><i class="bi bi-pencil me-2"></i>Edit</a></li>
+                                                <li><hr class="dropdown-divider"></li>
+                                                <li><a class="dropdown-item rounded-2 py-2 text-danger" asp-action="Delete" asp-route-id="@item.Id"><i class="bi bi-trash me-2"></i>Delete</a></li>
+                                            </ul>
+                                        </div>
+                                    }
                                 </div>
                             </div>
                         </div>
@@ -89,15 +107,29 @@
         }
         else
         {
-            <div class="text-center py-5" data-aos="fade-up">
-                <i class="bi bi-box-seam" style="font-size:80px;color:#5b21b6;opacity:0.3;"></i>
-                <h4 style="color:#666;margin-top:20px;">No Products Found</h4>
-                <p style="color:#999;">Start by adding your first product to the catalogue.</p>
-                <a asp-action="Create" class="btn-submit" style="display:inline-block;margin-top:16px;padding:12px 32px;border-radius:8px;text-decoration:none;">
-                    <i class="bi bi-plus-circle me-2"></i>Add First Product
-                </a>
+            <div class="text-center py-5">
+                <i class="bi bi-box-seam display-1 text-muted opacity-25"></i>
+                <h4 class="mt-4 fw-bold">No products found</h4>
+                <p class="text-muted">Start adding some items to your catalogue</p>
+                <a asp-action="Create" class="btn btn-primary rounded-pill px-4 mt-3">Add First Product</a>
             </div>
         }
-
     </div>
-</section>
+</div>
+
+<style>
+    .transition-hover {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .transition-hover:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 1rem 3rem rgba(0,0,0,.1) !important;
+    }
+    .animate-fade-up {
+        animation: fadeUp 0.6s ease-out forwards;
+    }
+    @@keyframes fadeUp {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+</style>

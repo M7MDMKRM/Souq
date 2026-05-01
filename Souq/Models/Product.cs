@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
 namespace Souq.Models;
@@ -16,6 +16,7 @@ public partial class Product
     public int? Catid { get; set; }
 
     public string? Photo { get; set; }
+    public bool IsFeatured { get; set; } = false;
 }
 
 

@@ -8,7 +8,7 @@ namespace Souq
     public class Program
     {
         public static void Main(string[] args)
-        {
+         {
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
@@ -22,8 +22,10 @@ namespace Souq
 
             builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-            builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-                .AddEntityFrameworkStores<ApplicationDbContext>();
+            builder.Services.AddIdentity<IdentityUser, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = true)
+                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddDefaultUI()
+                .AddDefaultTokenProviders();
 
             builder.Services.AddControllersWithViews();
 

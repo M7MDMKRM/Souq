@@ -1,102 +1,229 @@
 @model Souq.Models.Product
 
 @{
-    ViewData["Title"] = "Edit Product";
+    ViewData["Title"] = "Edit Product - Marketo";
+    Layout = "_Layout";
 }
 
-<!-- Page Hero -->
-<div class="page-hero">
-    <div class="container">
-        <h1><i class="bi bi-pencil-square me-2"></i>Edit Product</h1>
-        <nav aria-label="breadcrumb">
-            <ol class="breadcrumb mb-0">
-                <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Home</a></li>
-                <li class="breadcrumb-item"><a asp-action="Index">Products</a></li>
-                <li class="breadcrumb-item active">Edit: @Model?.Name</li>
-            </ol>
-        </nav>
-    </div>
-</div>
-
-<section class="inner-page-content">
-    <div class="container">
+<div class="min-vh-100 py-5" style="background: radial-gradient(circle at top right, #5b21b6 0%, #1e1b4b 100%);">
+    <div class="container pt-5 mt-4">
         <div class="row justify-content-center">
-            <div class="col-lg-8 col-md-10" data-aos="fade-up">
-                <div class="form-card">
-                    <div style="display:flex;align-items:center;gap:14px;margin-bottom:28px;padding-bottom:20px;border-bottom:1px solid #f0f0f0;">
-                        <div style="width:50px;height:50px;background:#fff3e0;border-radius:12px;display:flex;align-items:center;justify-content:center;">
-                            <i class="bi bi-pencil-square" style="color:#f57c00;font-size:22px;"></i>
+            <div class="col-lg-10">
+                
+                <!-- Header Area -->
+                <div class="d-flex align-items-center justify-content-between mb-5 animate-fade-up">
+                    <div>
+                        <h1 class="display-5 fw-bold text-white mb-2">Edit Product</h1>
+                        <p class="text-white-50 fs-5 mb-0">Modify your product details and keep your shop looking fresh.</p>
+                    </div>
+                    <a asp-action="Index" class="btn btn-glass-secondary rounded-pill px-4 py-2">
+                        <i class="bi bi-arrow-left me-2"></i>Back to Gallery
+                    </a>
+                </div>
+
+                <div class="glass-card shadow-2xl animate-fade-up overflow-hidden" style="border-radius: 40px; background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.1);">
+                    <div class="row g-0">
+                        
+                        <!-- Left Panel: Preview -->
+                        <div class="col-md-5 p-5 text-center d-flex flex-column align-items-center justify-content-center border-end" style="border-color: rgba(255,255,255,0.1) !important;">
+                            <div class="mb-4">
+                                <h4 class="text-white fw-bold mb-4">Live Preview</h4>
+                                <div class="position-relative p-3" style="background: rgba(255,255,255,0.05); border-radius: 30px; border: 1px solid rgba(255,255,255,0.1);">
+                                    <img id="imagePreview" src="@(string.IsNullOrEmpty(Model.Photo) ? "https://placehold.co/400x400/5b21b6/white?text=Product+Image" : Model.Photo)"
+                                         class="rounded-4 shadow-lg object-fit-contain" 
+                                         style="width: 100%; aspect-ratio: 1/1; max-width: 300px; background: white;" alt="Preview" />
+                                    <div class="position-absolute bottom-0 start-50 translate-middle-x mb-n3">
+                                        <span class="badge rounded-pill bg-primary px-4 py-2 shadow-lg fs-6">EGP <span id="pricePreview">@Model.Price</span></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mt-4 text-start w-100">
+                                <h5 id="namePreview" class="text-white fw-bold mb-2">@Model.Name</h5>
+                                <p id="descPreview" class="text-white-50 small mb-0">@Model.Description</p>
+                            </div>
                         </div>
-                        <div>
-                            <h4 style="font-weight:700;margin:0;color:#222;">Edit: @Model?.Name</h4>
-                            <p style="color:#999;font-size:13px;margin:2px 0 0;">Update the product details below</p>
+
+                        <!-- Right Panel: Form -->
+                        <div class="col-md-7 p-4 p-md-5">
+                            <form asp-action="Edit" enctype="multipart/form-data">
+                                <div asp-validation-summary="ModelOnly" class="alert alert-danger border-0 rounded-4 mb-4 bg-danger bg-opacity-25 text-white"></div>
+                                <input type="hidden" asp-for="Id" />
+                                <input type="hidden" asp-for="Photo" id="photoUrl" />
+
+                                <div class="row g-4">
+                                    <!-- Name -->
+                                    <div class="col-12">
+                                        <label asp-for="Name" class="form-label text-white-50 small text-uppercase fw-bold mb-2">Product Name</label>
+                                        <input asp-for="Name" id="nameInput" class="form-control glass-input" placeholder="Enter product name..." />
+                                        <span asp-validation-for="Name" class="text-danger small"></span>
+                                    </div>
+
+                                    <!-- Price & Category -->
+                                    <div class="col-md-6">
+                                        <label asp-for="Price" class="form-label text-white-50 small text-uppercase fw-bold mb-2">Price (EGP)</label>
+                                        <input asp-for="Price" id="priceInput" type="number" step="0.01" class="form-control glass-input" />
+                                        <span asp-validation-for="Price" class="text-danger small"></span>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label asp-for="Catid" class="form-label text-white-50 small text-uppercase fw-bold mb-2">Category ID</label>
+                                        <input asp-for="Catid" class="form-control glass-input" />
+                                        <span asp-validation-for="Catid" class="text-danger small"></span>
+                                    </div>
+
+                                    <!-- Description -->
+                                    <div class="col-12">
+                                        <label asp-for="Description" class="form-label text-white-50 small text-uppercase fw-bold mb-2">Detailed Description</label>
+                                        <textarea asp-for="Description" id="descInput" rows="4" class="form-control glass-input" placeholder="Tell customers about this product..."></textarea>
+                                        <span asp-validation-for="Description" class="text-danger small"></span>
+                                    </div>
+
+                                    <!-- Featured Toggle -->
+                                    <div class="col-12">
+                                        <div class="glass-card p-3 d-flex align-items-center justify-content-between" style="background: rgba(255,255,255,0.05); border-radius: 15px; border: 1px solid rgba(255,255,255,0.1);">
+                                            <div class="d-flex align-items-center gap-3">
+                                                <div class="bg-primary bg-opacity-20 rounded-3 p-2 text-primary"><i class="bi bi-star-fill"></i></div>
+                                                <div>
+                                                    <h6 class="text-white mb-0">Feature on Home Page</h6>
+                                                    <small class="text-white-50">Show this product in the "Featured" section</small>
+                                                </div>
+                                            </div>
+                                            <div class="form-check form-switch fs-4">
+                                                <input class="form-check-input custom-switch" type="checkbox" asp-for="IsFeatured" style="cursor: pointer;">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Image Source Toggle -->
+                                    <div class="col-12">
+                                        <label class="form-label text-white-50 small text-uppercase fw-bold mb-2">Product Photo Source</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text glass-input border-end-0"><i class="bi bi-link-45deg"></i></span>
+                                            <input type="text" id="externalUrl" class="form-control glass-input border-start-0" placeholder="Paste image URL here..." oninput="updatePhotoFromUrl(this.value)" />
+                                        </div>
+                                        <div class="text-center my-3 text-white-50 small">OR</div>
+                                        <div class="upload-btn-wrapper w-100">
+                                            <button class="btn btn-glass-primary w-100 rounded-4 py-3 border-dashed" type="button">
+                                                <i class="bi bi-cloud-arrow-up me-2"></i>Upload File
+                                            </button>
+                                            <input type="file" name="PhotoFile" onchange="previewFile(this)" />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="d-flex gap-3 mt-5">
+                                    <button type="submit" class="btn btn-primary btn-lg rounded-pill px-5 flex-grow-1 shadow-lg border-0" style="background: linear-gradient(135deg, #7c3aed 0%, #5b21b6 100%);">
+                                        <i class="bi bi-cloud-check-fill me-2"></i>Save Changes
+                                    </a>
+                                    <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-outline-danger btn-lg rounded-pill px-4 shadow-sm">
+                                        <i class="bi bi-trash"></i>
+                                    </a>
+                                </div>
+                            </form>
                         </div>
                     </div>
-
-                    <form asp-action="Edit">
-                        <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
-                        <input type="hidden" asp-for="Id" />
-
-                        <div class="row gy-4">
-                            <div class="col-12">
-                                <label asp-for="Name" class="form-label">Product Name <span style="color:#e84545;">*</span></label>
-                                <input asp-for="Name" class="form-control" placeholder="Enter product name" />
-                                <span asp-validation-for="Name" class="text-danger" style="font-size:12px;"></span>
-                            </div>
-
-                            <div class="col-12">
-                                <label asp-for="Description" class="form-label">Description</label>
-                                <textarea asp-for="Description" class="form-control" rows="4" placeholder="Describe the product..." style="border-radius:8px;padding:10px 14px;border:1.5px solid #e0e0e0;resize:vertical;"></textarea>
-                                <span asp-validation-for="Description" class="text-danger" style="font-size:12px;"></span>
-                            </div>
-
-                            <div class="col-md-6">
-                                <label asp-for="Price" class="form-label">Price ($) <span style="color:#e84545;">*</span></label>
-                                <div style="position:relative;">
-                                    <span style="position:absolute;left:14px;top:50%;transform:translateY(-50%);color:#999;font-weight:600;">$</span>
-                                    <input asp-for="Price" class="form-control" placeholder="0.00" style="padding-left:28px;" />
-                                </div>
-                                <span asp-validation-for="Price" class="text-danger" style="font-size:12px;"></span>
-                            </div>
-
-                            <div class="col-md-6">
-                                <label asp-for="Catid" class="form-label">Category ID</label>
-                                <input asp-for="Catid" class="form-control" placeholder="Category number" />
-                                <span asp-validation-for="Catid" class="text-danger" style="font-size:12px;"></span>
-                            </div>
-
-                            <div class="col-12">
-                                <label asp-for="Photo" class="form-label">Photo URL</label>
-                                <input asp-for="Photo" class="form-control" placeholder="https://example.com/image.jpg" />
-                                <span asp-validation-for="Photo" class="text-danger" style="font-size:12px;"></span>
-                                @if (!string.IsNullOrEmpty(Model?.Photo))
-                                {
-                                    <div style="margin-top:10px;">
-                                        <small style="color:#aaa;font-size:12px;">Current image:</small>
-                                        <img src="@Model.Photo" alt="Current" style="width:80px;height:60px;object-fit:cover;border-radius:8px;margin-left:10px;border:2px solid #f0f0f0;">
-                                    </div>
-                                }
-                            </div>
-                        </div>
-
-                        <div style="display:flex;gap:12px;margin-top:32px;padding-top:24px;border-top:1px solid #f0f0f0;">
-                            <button type="submit" class="btn-submit" style="padding:12px 32px;border-radius:8px;background:#f57c00;">
-                                <i class="bi bi-floppy me-2"></i>Save Changes
-                            </button>
-                            <a asp-action="Index" class="btn-details" style="padding:12px 24px;border-radius:8px;display:inline-flex;align-items:center;gap:6px;">
-                                <i class="bi bi-x-circle"></i> Cancel
-                            </a>
-                            <a asp-action="Details" asp-route-id="@Model?.Id" class="btn-details" style="padding:12px 24px;border-radius:8px;display:inline-flex;align-items:center;gap:6px;background:#e8f5e9;color:#2e7d32;">
-                                <i class="bi bi-eye"></i> View
-                            </a>
-                        </div>
-                    </form>
                 </div>
             </div>
         </div>
     </div>
-</section>
+</div>
+
+<style>
+    .glass-input {
+        background: rgba(255, 255, 255, 0.05) !important;
+        border: 1px solid rgba(255, 255, 255, 0.1) !important;
+        color: white !important;
+        border-radius: 15px !important;
+        padding: 12px 20px !important;
+        transition: all 0.3s ease;
+    }
+    .glass-input::placeholder { color: rgba(255,255,255,0.3); }
+    .glass-input:focus {
+        background: rgba(255, 255, 255, 0.1) !important;
+        border-color: #a78bfa !important;
+        box-shadow: 0 0 0 4px rgba(167, 139, 250, 0.1) !important;
+        transform: translateY(-2px);
+    }
+
+    .btn-glass-primary {
+        background: rgba(124, 58, 237, 0.1);
+        border: 1px solid rgba(124, 58, 237, 0.2);
+        color: #a78bfa;
+        transition: all 0.3s ease;
+    }
+    .btn-glass-primary:hover {
+        background: rgba(124, 58, 237, 0.2);
+        color: white;
+    }
+
+    .btn-glass-secondary {
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        color: white;
+        transition: all 0.3s ease;
+    }
+    .btn-glass-secondary:hover {
+        background: rgba(255, 255, 255, 0.1);
+        transform: translateX(-5px);
+    }
+
+    .border-dashed { border-style: dashed !important; }
+
+    .upload-btn-wrapper {
+        position: relative;
+        overflow: hidden;
+        display: inline-block;
+    }
+    .upload-btn-wrapper input[type=file] {
+        font-size: 100px;
+        position: absolute;
+        left: 0;
+        top: 0;
+        opacity: 0;
+        cursor: pointer;
+    }
+
+    .shadow-2xl {
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    }
+    .custom-switch:checked {
+        background-color: #7c3aed !important;
+        border-color: #7c3aed !important;
+    }
+    .custom-switch {
+        background-color: rgba(255,255,255,0.1) !important;
+        border-color: rgba(255,255,255,0.2) !important;
+    }
+</style>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        // Live Update Listeners
+        document.getElementById('nameInput').addEventListener('input', e => {
+            document.getElementById('namePreview').textContent = e.target.value || "Product Name";
+        });
+        document.getElementById('priceInput').addEventListener('input', e => {
+            document.getElementById('pricePreview').textContent = e.target.value || "0.00";
+        });
+        document.getElementById('descInput').addEventListener('input', e => {
+            document.getElementById('descPreview').textContent = e.target.value || "No description provided.";
+        });
+
+        function updatePhotoFromUrl(url) {
+            if (url) {
+                document.getElementById('imagePreview').src = url;
+                document.getElementById('photoUrl').value = url;
+            }
+        }
+
+        function previewFile(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    document.getElementById('imagePreview').src = e.target.result;
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+    </script>
 }

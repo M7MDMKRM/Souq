@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Souq.Models;
+
+using Microsoft.AspNetCore.Authorization;
 
 namespace Souq.Controllers
 {
@@ -19,12 +21,28 @@ namespace Souq.Controllers
         }
 
         // GET: Products
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? catId, string? search)
         {
-            return View(await _context.Products.ToListAsync());
+            var products = _context.Products.AsQueryable();
+
+            if (catId.HasValue)
+            {
+                products = products.Where(p => p.Catid == catId);
+                var category = await _context.Categories.FindAsync(catId);
+                ViewData["CategoryName"] = category?.Name;
+            }
+
+            if (!string.IsNullOrEmpty(search))
+            {
+                products = products.Where(p => p.Name.Contains(search) || p.Description.Contains(search));
+                ViewData["SearchQuery"] = search;
+            }
+
+            return View(await products.ToListAsync());
         }
 
         // GET: Products/Details/5
+        [HttpGet]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -34,15 +52,18 @@ namespace Souq.Controllers
 
             var product = await _context.Products
                 .FirstOrDefaultAsync(m => m.Id == id);
+
             if (product == null)
             {
-                return NotFound();
+                // Instead of 404, let's redirect to Index to avoid the "Not Found" white page
+                return RedirectToAction(nameof(Index));
             }
 
             return View(product);
         }
 
         // GET: Products/Create
+        [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
             return View();
@@ -51,7 +72,7 @@ namespace Souq.Controllers
         // POST: Products/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Description,Price,Catid")] Product product, IFormFile? PhotoFile)
+        public async Task<IActionResult> Create([Bind("Id,Name,Description,Price,Catid,IsFeatured")] Product product, IFormFile? PhotoFile)
         {
             if (ModelState.IsValid)
             {
@@ -79,6 +100,7 @@ namespace Souq.Controllers
         }
 
         // GET: Products/Edit/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -97,7 +119,7 @@ namespace Souq.Controllers
         // POST: Products/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Description,Price,Catid")] Product product, IFormFile? PhotoFile)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Description,Price,Catid,Photo,IsFeatured")] Product product, IFormFile? PhotoFile)
         {
             if (id != product.Id)
             {
@@ -144,6 +166,7 @@ namespace Souq.Controllers
         }
 
         // GET: Products/Delete/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)

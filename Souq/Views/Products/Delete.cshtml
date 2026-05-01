@@ -1,90 +1,97 @@
 @model Souq.Models.Product
 
 @{
-    ViewData["Title"] = "Delete Product";
+    ViewData["Title"] = "Delete Product - Marketo";
+    Layout = "_Layout";
 }
 
-<!-- Page Hero -->
-<div class="page-hero" style="background:linear-gradient(135deg,#c62828,#b71c1c);">
-    <div class="container">
-        <h1><i class="bi bi-trash me-2"></i>Delete Product</h1>
-        <nav aria-label="breadcrumb">
-            <ol class="breadcrumb mb-0">
-                <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Home</a></li>
-                <li class="breadcrumb-item"><a asp-action="Index">Products</a></li>
-                <li class="breadcrumb-item active">Delete</li>
-            </ol>
-        </nav>
-    </div>
-</div>
-
-<section class="inner-page-content">
-    <div class="container">
+<div class="min-vh-100 py-5" style="background: radial-gradient(circle at top right, #5b21b6 0%, #1e1b4b 100%);">
+    <div class="container pt-5 mt-4">
         <div class="row justify-content-center">
-            <div class="col-lg-6 col-md-8" data-aos="fade-up">
-                <div style="background:#fff;border-radius:20px;padding:40px;box-shadow:0 8px 32px rgba(0,0,0,0.08);text-align:center;">
-
-                    <!-- Warning Icon -->
-                    <div style="width:90px;height:90px;background:#ffebee;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 20px;">
-                        <i class="bi bi-exclamation-triangle-fill" style="font-size:40px;color:#c62828;"></i>
+            <div class="col-lg-6 col-md-8">
+                
+                <!-- Header Area -->
+                <div class="text-center mb-5 animate-fade-up">
+                    <div class="d-inline-flex align-items-center justify-content-center bg-danger bg-opacity-10 rounded-pill p-3 mb-4" style="width: 80px; height: 80px; border: 1px solid rgba(220, 53, 69, 0.2);">
+                        <i class="bi bi-exclamation-triangle-fill text-danger fs-1"></i>
                     </div>
+                    <h1 class="display-5 fw-bold text-white mb-2">Delete Product?</h1>
+                    <p class="text-white-50 fs-5 mb-0">This action cannot be undone. Are you sure?</p>
+                </div>
 
-                    <h3 style="font-weight:800;color:#222;margin-bottom:8px;">Delete this Product?</h3>
-                    <p style="color:#888;margin-bottom:28px;">This action <strong>cannot be undone</strong>. Please review the product details before confirming.</p>
-
-                    <!-- Product Preview -->
-                    <div style="background:#f9f9f9;border-radius:14px;padding:24px;text-align:left;margin-bottom:28px;border:1px solid #f0f0f0;">
-                        @if (!string.IsNullOrEmpty(Model?.Photo))
-                        {
-                            <img src="@Model.Photo" alt="@Model.Name"
-                                 style="width:100%;height:180px;object-fit:cover;border-radius:10px;margin-bottom:16px;">
-                        }
-                        <div style="display:flex;flex-direction:column;gap:10px;">
-                            <div style="display:flex;justify-content:space-between;align-items:center;">
-                                <span style="font-size:12px;font-weight:600;color:#999;text-transform:uppercase;">Name</span>
-                                <span style="font-weight:700;color:#222;">@Model?.Name</span>
+                <div class="glass-card shadow-2xl animate-fade-up overflow-hidden p-4 p-md-5" style="border-radius: 40px; background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.1);">
+                    
+                    <!-- Product Preview Card -->
+                    <div class="bg-white bg-opacity-5 rounded-4 p-4 mb-5 border border-white border-opacity-10">
+                        <div class="row align-items-center g-4">
+                            <div class="col-md-4">
+                                <img src="@(string.IsNullOrEmpty(Model.Photo) ? "https://placehold.co/400x400/5b21b6/white?text=Product" : Model.Photo)" 
+                                     class="rounded-3 shadow-lg w-100 object-fit-cover" 
+                                     style="aspect-ratio: 1/1; background: white;" alt="Product">
                             </div>
-                            @if (Model?.Price.HasValue == true)
-                            {
-                                <div style="display:flex;justify-content:space-between;align-items:center;border-top:1px solid #eee;padding-top:10px;">
-                                    <span style="font-size:12px;font-weight:600;color:#999;text-transform:uppercase;">Price</span>
-                                    <span style="font-weight:800;color:#e84545;font-size:18px;">$@Model.Price</span>
+                            <div class="col-md-8">
+                                <h4 class="text-white fw-bold mb-1">@Model.Name</h4>
+                                <p class="text-white-50 small mb-3">@(Model.Description?.Length > 120 ? Model.Description.Substring(0, 120) + "..." : Model.Description)</p>
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <span class="badge rounded-pill bg-primary px-3 py-2">EGP @Model.Price</span>
+                                    <span class="text-white-50 small">ID: #@Model.Id</span>
                                 </div>
-                            }
-                            @if (!string.IsNullOrEmpty(Model?.Description))
-                            {
-                                <div style="border-top:1px solid #eee;padding-top:10px;">
-                                    <span style="font-size:12px;font-weight:600;color:#999;text-transform:uppercase;display:block;margin-bottom:4px;">Description</span>
-                                    <span style="color:#555;font-size:14px;">
-                                        @(Model.Description?.Length > 100 ? Model.Description.Substring(0, 100) + "..." : Model.Description)
-                                    </span>
-                                </div>
-                            }
-                            @if (Model?.Catid.HasValue == true)
-                            {
-                                <div style="display:flex;justify-content:space-between;align-items:center;border-top:1px solid #eee;padding-top:10px;">
-                                    <span style="font-size:12px;font-weight:600;color:#999;text-transform:uppercase;">Category</span>
-                                    <span style="background:#f0f0f0;color:#555;padding:3px 10px;border-radius:20px;font-size:13px;">#@Model.Catid</span>
-                                </div>
-                            }
+                            </div>
                         </div>
                     </div>
 
-                    <!-- Action Buttons -->
-                    <form asp-action="Delete" style="display:inline;">
+                    <!-- Actions -->
+                    <form asp-action="Delete">
                         <input type="hidden" asp-for="Id" />
-                        <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
-                            <button type="submit" style="background:#c62828;color:#fff;border:none;padding:13px 32px;border-radius:10px;font-weight:700;font-size:15px;cursor:pointer;display:inline-flex;align-items:center;gap:8px;transition:background 0.2s;"
-                                    onmouseover="this.style.background='#b71c1c'" onmouseout="this.style.background='#c62828'">
-                                <i class="bi bi-trash-fill"></i> Yes, Delete It
+                        <div class="d-flex flex-column gap-3">
+                            <button type="submit" class="btn btn-danger btn-lg rounded-pill py-3 fw-bold shadow-lg border-0 transition-hover" style="background: linear-gradient(135deg, #ef4444 0%, #b91c1c 100%);">
+                                <i class="bi bi-trash3-fill me-2"></i>Permanently Delete
                             </button>
-                            <a asp-action="Index" class="btn-details" style="padding:13px 28px;border-radius:10px;display:inline-flex;align-items:center;gap:8px;font-size:15px;">
-                                <i class="bi bi-arrow-left"></i> Cancel
+                            <a asp-action="Index" class="btn btn-glass-secondary btn-lg rounded-pill py-3 text-white border-white border-opacity-10 transition-hover text-decoration-none text-center">
+                                <i class="bi bi-arrow-left me-2"></i>Keep Product
                             </a>
                         </div>
                     </form>
                 </div>
+
+                <!-- Footer Link -->
+                <div class="text-center mt-5 animate-fade-up">
+                    <a asp-controller="Home" asp-action="Index" class="text-white-50 text-decoration-none hover-white">
+                        <i class="bi bi-house-door me-1"></i> Back to Home
+                    </a>
+                </div>
             </div>
         </div>
     </div>
-</section>
+</div>
+
+<style>
+    .glass-card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .shadow-2xl {
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    }
+    .btn-glass-secondary {
+        background: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(10px);
+    }
+    .btn-glass-secondary:hover {
+        background: rgba(255, 255, 255, 0.1);
+        color: white;
+    }
+    .transition-hover:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 20px -5px rgba(0,0,0,0.3);
+    }
+    .hover-white:hover {
+        color: white !important;
+    }
+    @@keyframes fadeInUp {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    .animate-fade-up {
+        animation: fadeInUp 0.6s ease forwards;
+    }
+</style>

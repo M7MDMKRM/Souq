@@ -1,77 +1,165 @@
+@model IEnumerable<Souq.Models.Cart>
+
 @{
-    ViewData["Title"] = "My Cart";
+    ViewData["Title"] = "My Shopping Cart";
+    Layout = "_Layout";
+    decimal total = 0;
 }
 
-<!-- Page Hero -->
-<div class="page-hero" style="background:linear-gradient(135deg,#5b21b6,#7c3aed);padding:120px 0 60px;">
-    <div class="container">
-        <h1 style="color:#fff;"><i class="bi bi-cart3 me-2"></i>My Cart</h1>
-        <nav aria-label="breadcrumb">
-            <ol class="breadcrumb mb-0">
-                <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index" style="color:rgba(255,255,255,0.7);">Home</a></li>
-                <li class="breadcrumb-item active" style="color:#fff;">Cart</li>
-            </ol>
-        </nav>
-    </div>
-</div>
-
-<!-- Cart Content -->
-<section class="inner-page-content">
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-lg-8 text-center" data-aos="fade-up">
-
-                <div style="background:#fff;border-radius:24px;padding:60px 40px;box-shadow:0 8px 40px rgba(0,0,0,0.08);">
-
-                    <!-- Cart Icon Animated -->
-                    <div style="position:relative;display:inline-block;margin-bottom:30px;">
-                        <div style="width:130px;height:130px;background:linear-gradient(135deg,#ede9fe,#f5f3ff);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto;">
-                            <i class="bi bi-cart-x" style="font-size:60px;color:#5b21b6;"></i>
-                        </div>
-                        <div style="position:absolute;top:4px;right:4px;width:36px;height:36px;background:#5b21b6;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:16px;border:3px solid #fff;">0</div>
-                    </div>
-
-                    <h2 style="font-weight:800;color:#222;font-size:1.8rem;margin-bottom:12px;">Your Cart is Empty</h2>
-                    <p style="color:#888;max-width:400px;margin:0 auto 32px;line-height:1.7;">
-                        Looks like you haven't added any products to your cart yet. Explore our wide range of products and find something you love!
-                    </p>
-
-                    <!-- Benefits -->
-                    <div class="row gy-3 mb-5 text-start" style="max-width:480px;margin-left:auto;margin-right:auto;">
-                        <div class="col-12">
-                            <div style="display:flex;align-items:center;gap:12px;padding:14px 16px;background:#f8f8f8;border-radius:10px;">
-                                <i class="bi bi-truck" style="color:#5b21b6;font-size:20px;flex-shrink:0;"></i>
-                                <span style="color:#555;font-size:14px;"><strong>Free shipping</strong> on orders over $50</span>
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <div style="display:flex;align-items:center;gap:12px;padding:14px 16px;background:#f8f8f8;border-radius:10px;">
-                                <i class="bi bi-shield-check" style="color:#5b21b6;font-size:20px;flex-shrink:0;"></i>
-                                <span style="color:#555;font-size:14px;"><strong>Secure checkout</strong> with 256-bit SSL encryption</span>
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <div style="display:flex;align-items:center;gap:12px;padding:14px 16px;background:#f8f8f8;border-radius:10px;">
-                                <i class="bi bi-arrow-repeat" style="color:#5b21b6;font-size:20px;flex-shrink:0;"></i>
-                                <span style="color:#555;font-size:14px;"><strong>Free returns</strong> within 30 days of purchase</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- CTA Buttons -->
-                    <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
-                        <a asp-controller="Products" asp-action="Index"
-                           class="btn-submit" style="display:inline-flex;align-items:center;gap:8px;padding:14px 36px;border-radius:10px;text-decoration:none;font-size:15px;">
-                            <i class="bi bi-shop"></i> Start Shopping
-                        </a>
-                        <a asp-controller="Home" asp-action="Categories"
-                           class="btn-details" style="display:inline-flex;align-items:center;gap:8px;padding:14px 28px;border-radius:10px;font-size:15px;">
-                            <i class="bi bi-grid"></i> Browse Categories
-                        </a>
-                    </div>
-                </div>
-
+<!-- Page Header (Premium Theme) -->
+<div class="pt-5 pb-4" style="background: linear-gradient(135deg, #5b21b6 0%, #310d6b 100%);">
+    <div class="container pt-5 mt-2">
+        <div class="d-flex align-items-center justify-content-between animate-fade-up">
+            <h2 class="fw-bold text-white mb-0">
+                <i class="bi bi-cart3 me-2"></i>My Shopping Cart
+            </h2>
+            <div class="d-flex align-items-center gap-3">
+                <span class="badge rounded-pill bg-white text-dark shadow-sm px-4 py-2 fw-bold">
+                    @(Model?.Count() ?? 0) Items
+                </span>
+                <a asp-controller="Home" asp-action="Index" class="btn btn-outline-light rounded-pill px-3 py-1 small" style="font-size: 13px; border-color: rgba(255,255,255,0.3);">
+                    <i class="bi bi-arrow-left me-1"></i>Back
+                </a>
             </div>
         </div>
     </div>
-</section>
+</div>
+
+<div class="bg-theme-light pb-5 min-vh-100">
+    <div class="container pt-5">
+        @if (Model == null || !Model.Any())
+        {
+            <div class="text-center py-5 animate-fade-up">
+                <div class="bg-white rounded-circle d-inline-flex align-items-center justify-content-center mb-4 shadow-sm" style="width: 150px; height: 150px; border: 2px dashed #dee2e6;">
+                    <i class="bi bi-cart-x display-1" style="color: #5b21b6;"></i>
+                </div>
+                <h3 class="fw-bold text-dark mb-2">Your cart is feeling lonely</h3>
+                <p class="text-muted mb-4 fs-5">Add some amazing products and bring it back to life!</p>
+                <a asp-controller="Products" asp-action="Index" class="btn btn-primary rounded-pill px-5 py-3 shadow-lg" style="background: #5b21b6; border: none; font-weight: 600;">
+                    Explore Products <i class="bi bi-arrow-right ms-2"></i>
+                </a>
+            </div>
+        }
+        else
+        {
+            <div class="row g-4">
+                <div class="col-lg-8 animate-fade-up">
+                    <div class="bg-white rounded-4 shadow-sm border-0 overflow-hidden">
+                        <div class="table-responsive">
+                            <table class="table table-hover align-middle mb-0">
+                                <thead class="bg-light">
+                                    <tr>
+                                        <th class="border-0 px-4 py-3 text-muted small text-uppercase">Product</th>
+                                        <th class="border-0 py-3 text-muted small text-uppercase text-center">Quantity</th>
+                                        <th class="border-0 py-3 text-muted small text-uppercase text-end">Price</th>
+                                        <th class="border-0 px-4 py-3 text-muted small text-uppercase text-end"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model)
+                                    {
+                                        var subtotal = (item.Product?.Price ?? 0) * item.Qty;
+                                        total += subtotal;
+                                        <tr>
+                                            <td class="px-4 py-4">
+                                                <div class="d-flex align-items-center gap-3">
+                                                    <div class="rounded-3 bg-light overflow-hidden" style="width: 80px; height: 80px; border: 1px solid #f0f0f0;">
+                                                        <img src="@item.Product?.Photo" class="w-100 h-100 object-fit-cover" alt="@item.Product?.Name">
+                                                    </div>
+                                                    <div>
+                                                        <h6 class="fw-bold text-dark mb-0">@item.Product?.Name</h6>
+                                                        <small class="text-muted">Unit: EGP @item.Product?.Price</small>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td class="text-center">
+                                                <div class="fw-bold text-dark">@item.Qty</div>
+                                            </td>
+                                            <td class="text-end fw-bold text-dark">EGP @subtotal</td>
+                                            <td class="text-end px-4">
+                                                <form asp-controller="Home" asp-action="RemoveFromCart" method="post" onsubmit="return confirmDelete(this);">
+                                                    <input type="hidden" name="cartId" value="@item.Id" />
+                                                    <button type="submit" class="btn btn-outline-danger btn-sm rounded-circle shadow-sm d-inline-flex align-items-center justify-content-center transition-all" style="width: 38px; height: 38px; border-color: #fee2e2; background: #fff5f5; color: #ef4444;">
+                                                        <i class="bi bi-trash3"></i>
+                                                    </button>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                            <style>
+                                .transition-all {
+                                    transition: all 0.2s ease-in-out;
+                                }
+                                .btn-outline-danger:hover {
+                                    background-color: #fee2e2 !important;
+                                    transform: scale(1.1);
+                                }
+                            </style>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 animate-fade-up" style="animation-delay: 0.1s;">
+                    <div class="bg-white rounded-4 shadow-lg border-0 p-4 sticky-top" style="top: 100px; z-index: 10; border: 1px solid #f1f3f5 !important;">
+                        <h5 class="fw-bold text-dark mb-4">Order Summary</h5>
+
+                        <div class="d-flex justify-content-between mb-3">
+                            <span class="text-muted">Subtotal</span>
+                            <span class="fw-bold text-dark">EGP @total</span>
+                        </div>
+                        <div class="d-flex justify-content-between mb-3">
+                            <span class="text-muted">Shipping</span>
+                            <span class="text-success fw-bold">FREE</span>
+                        </div>
+                        <hr class="my-4" style="border-color: #f1f3f5;">
+                        <div class="d-flex justify-content-between mb-4">
+                            <h5 class="fw-bold text-dark mb-0">Total Amount</h5>
+                            <h4 class="fw-bold mb-0" style="color: #5b21b6;">EGP @total</h4>
+                        </div>
+
+                        <a asp-controller="Home" asp-action="Checkout" class="btn btn-primary w-100 rounded-pill py-3 fw-bold shadow-lg mb-3" style="background: #5b21b6; border: none; text-decoration: none; display: block; text-align: center;">
+                            Proceed to Checkout <i class="bi bi-arrow-right ms-2"></i>
+                        </a>
+
+                        <a asp-controller="Home" asp-action="Index" class="btn btn-light w-100 rounded-pill py-3 fw-bold border text-muted">
+                            <i class="bi bi-cart-plus me-2"></i>Continue Shopping
+                        </a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function confirmDelete(form) {
+            Swal.fire({
+                title: 'Remove Item?',
+                text: "Are you sure you want to remove this item from your cart?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#5b21b6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, remove it!',
+                cancelButtonText: 'Cancel',
+                background: '#fff',
+                color: '#1e1b4b',
+                iconColor: '#5b21b6',
+                customClass: {
+                    popup: 'rounded-4 shadow-lg',
+                    confirmButton: 'rounded-pill px-4',
+                    cancelButton: 'rounded-pill px-4'
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    form.submit();
+                }
+            });
+            return false;
+        }
+    </script>
+}
